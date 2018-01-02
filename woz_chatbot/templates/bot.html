@@ -1,0 +1,10 @@
+{% extends 'layout.html' %}
+
+{% block body %}
+<h2>Bot Perspective:</h2>
+<form id="bot-form" method="POST" action='#'>
+    <input type="text" name="bot-input" id="bot-input" placeholder="Message">
+    <input type="submit" value="Send">
+</form>
+<div id="log"></div>
+{% endblock %}

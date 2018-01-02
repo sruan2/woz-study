@@ -1,0 +1,10 @@
+{% extends 'layout.html' %}
+
+{% block body %}
+<h2>User Perspective:</h2>
+<form id="user-form" method="POST" action='#'>
+    <input type="text" name="user-input" id="user-input" placeholder="Message">
+    <input type="submit" value="Send">
+</form>
+<div id="log"></div>
+{% endblock %}
