@@ -6,3 +6,6 @@ This is a chat room webpage which can send and receive messages using Python Fla
 
 # Team
 Ellen, Sherry, Liz, and Yeshuang
+
+# Setup
+blabla
