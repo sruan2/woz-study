@@ -22,6 +22,6 @@ Run the application:
 ```
 python app.py
 ```
-Open two web browser windows side by side. In window 1, navigate to http://localhost:8000/. In window 2, navigate to http://localhost:8000/bot. Window 1 will act as the user's chat perspective. You will be prompted to sign in by setting a username, and then the page will redirect to the chat interface at http://localhost:8000/user. Window 2 will act as the bot's chat perspective. With the current design, it is assumed that the "wizard" will connect to the chat before the begins the conversation.
+Open two web browser windows side by side. In window 1, navigate to http://localhost:8000/. In window 2, navigate to http://localhost:8000/bot. Window 1 will act as the user's chat perspective. You will be prompted to sign in by setting a username, and the page will redirect to the chat interface at http://localhost:8000/user. Window 2 will act as the bot's chat perspective. With the current design, it is assumed that the "wizard" will connect to the chat before the user begins the conversation.
 
 
