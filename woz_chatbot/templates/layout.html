@@ -1,74 +1,63 @@
 <!DOCTYPE html>
 <html>
-	<head>
-		<meta charset='utf-8'>
-		<title>WoZ ChatBot</title>
-	</head>
-	<body>
-		<script type="text/javascript" src="http://code.jquery.com/jquery-1.4.2.min.js"></script>
-		<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/socket.io/1.3.6/socket.io.min.js"></script>
-		<script type="text/javascript" charset="utf-8">
-	        $(document).ready(function() {
-	            namespace = '';
+<head>
+    <meta charset='utf-8'>
+    <meta name="mobile-web-app-capable" content="yes">
+    <title>WoZ ChatBot</title>
+</head>
+<body>
+    <script type="text/javascript" src="http://code.jquery.com/jquery-1.4.2.min.js"></script>
+    <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/socket.io/1.3.6/socket.io.min.js"></script>
+    <script type="text/javascript" charset="utf-8">
+    $(document).ready(function() {
+        namespace = '';
 
-	            // Connect to the Socket.IO server.
-	            // The connection URL has the following format:
-	            //     http[s]://<domain>:<port>[/<namespace>]
-	            var socket = io.connect('http://' + document.domain + ':' + location.port + namespace);
+                // Connect to the Socket.IO server.
+                // The connection URL has the following format:
+                //     http[s]://<domain>:<port>[/<namespace>]
+                var socket = io.connect('http://' + document.domain + ':' + location.port + namespace);
 
-	            // Retrieve name of user from URL param
-	            var url = new URL(window.location.href);
-	            var name = url.searchParams.get("uid");
-	            if (name == "") {
-	            	name = "Guest";
-	            }
-	            // Event handler for new connections.
-	            // The callback function is invoked when a connection with the
-	            // server is established.
-	            var initTime;
-	            socket.on('connect', function() {
-	                initTime = Date.now();
-	                socket.emit('est connection', {data: 'You\'re connected! Begin chatting...', initTime: initTime});
-	            });
+                // Retrieve name of user from URL param
+                var url = new URL(window.location.href);
+                var name = url.searchParams.get("uid");
+                if (name == "") {
+                    name = "Guest";
+                }
+                // Event handler for new connections.
+                // The callback function is invoked when a connection with the
+                // server is established.
+                socket.on('connect', function() {
+                    socket.emit('est connection', {data: 'You\'re connected! Begin chatting...', initTime: Date.now()});
+                });
 
-	            // Event handler for server sent data.
-	            // The callback function is invoked whenever the server emits data
-	            // to the client. The data is then displayed in the "Received"
-	            // section of the page.
-	            socket.on('chat response', function(msg) {
-	                if (msg.serverTime) {
-	                    var currentTime = Date.now(),
-	                        delay1 = msg.serverTime - initTime,
-	                        delay2 = currentTime - msg.serverTime;
-	                    console.log(delay1 + ' ' + delay2);
-	                    if (delay1 < -500 || delay2 < -500) {
-	                        alert('Your system time is out of sync with the Internet!\nPlease sync your system time first.');
-	                        window.close();
-	                    }
-	                }
-	                $('#log').append('<br>' + $('<div/>').text(msg.name + ': ' + msg.data).html());
-	            });
+                // Event handler for server sent data.
+                // The callback function is invoked whenever the server emits data
+                // to the client. The data is then displayed in the "Received"
+                // section of the page.
+                socket.on('chat response', function(msg) {
+                    $('#log').append('<br>' + $('<div/>').text(msg.name + ': ' + msg.data).html());
+                });
 
-	            // Handlers for the different forms
-	            $('form#set-name').submit(function(event) {
-	                username = $('#username').val();
-	                window.location = 'user?uid=' + username;
-	                return false;
-	            });
+                // Handlers for the different forms
+                $('form#set-name').submit(function(event) {
+                    username = $('#username').val();
+                    window.location = 'user?uid=' + username;
+                    return false;
+                });
 
-	            $('form#user-form').submit(function(event) {
-	                socket.emit('chat broadcast', {data: $('#user-input').val(), name:name});
-	                document.getElementById("user-form").reset();
-	                return false;
-	            });
+                $('form#user-form').submit(function(event) {
+                    socket.emit('chat broadcast', {data: $('#user-input').val(), name:name});
+                    document.getElementById("user-form").reset();
+                    return false;
+                });
 
-	            $('form#bot-form').submit(function(event) {
-	                socket.emit('chat broadcast', {data: $('#bot-input').val(), name:"Bot"});
-	                document.getElementById("bot-form").reset();
-	                return false;
-	            });
-	        });
-    	</script>
-    	{% block body %}{% endblock %}
-	</body>
+                $('form#bot-form').submit(function(event) {
+                    socket.emit('chat broadcast', {data: $('#bot-input').val(), name:"Bot"});
+                    document.getElementById("bot-form").reset();
+                    return false;
+                });
+            });
+    </script>
+    {% block body %}{% endblock %}
+</body>
 </html>
