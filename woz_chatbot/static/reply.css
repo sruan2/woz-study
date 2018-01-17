@@ -1,0 +1,93 @@
+/* style user response reply */
+.bubble.reply {
+	border-radius: 15px 15px 5px 15px;
+	padding: 10px 16px;
+	background: rgb(0,132,255);
+/*	box-shadow: none;*/
+	float: right;
+	position: relative;
+	transform-origin: right top;
+  	margin: 8px 0 10px;
+/*	padding: 0;*/
+	max-width: 65%;
+}
+
+.say {
+	border-radius: 5px 15px 15px 15px;	
+}
+
+.bubble.reply .bubble-content {
+	transition: all 200ms;
+}
+
+.bubble-button .option{
+	visibility: hidden;
+}
+
+
+.bubble.reply {
+	color: #fff;
+	padding: 8px 16px;
+	margin-left: 2px;
+	display: inline-block;
+  	float: right;
+	cursor: pointer;
+	transition: all 100ms;
+	text-decoration: none;
+	animation-duration: 0.5s;
+	animation-name: animate-reply;
+	animation-play-state: paused;
+	animation-fill-mode: forwards;
+	opacity: 0;
+}
+
+@keyframes animate-reply {
+    from { opacity: 0 }
+    to { opacity: 1 }
+}
+.bubble.reply.say {
+	animation-play-state: running;
+	margin-top: 3px;
+	min-height: 24px;
+	overflow: hidden;
+}
+
+.bubble.reply .bubble-button:first-child {
+	border-radius: 15px 15px 15px 5px;
+	margin-left: 2px;
+}
+.bubble.reply .bubble-content .bubble-button:last-child,
+.bubble.reply .bubble-content .bubble-button.bubble-pick {
+	border-radius: 15px 15px 5px 15px;
+}
+.bubble.reply.bubble-picked .bubble-content .bubble-button {
+	transform: scale(0);
+	padding: 0;
+}
+.bubble.reply:not(.bubble-picked) .bubble-content .bubble-button:hover,
+.bubble.reply .bubble-content .bubble-button.bubble-pick {
+	background: rgba(44, 44, 44, 1);
+	transform: scale(1);
+  padding: 8px 16px;
+  height: auto;
+}
+
+/* input fields for bubbles */
+.bubble .bubble-content input {
+	background: linear-gradient(193deg, #1faced, #5592dc 100%) !important;
+	box-shadow: 0 0px 1px 0px #000, 0 -1px 0 0px rgba(255, 255, 255, 0.38) inset;
+	text-shadow: 0 1px rgba(0, 0, 0, 0.35);
+	border: 0;
+	outline: 0;
+}
+.bubble .bubble-content input::-webkit-input-placeholder { /* Chrome/Opera/Safari */
+  color: rgba(255,255,255,.5);
+  text-shadow: none;
+}
+.bubble .bubble-content input::-moz-placeholder { /* Firefox 19+ */
+  color: rgba(255,255,255,.5);
+  text-shadow: none;
+}
+.bubble .bubble-content input:read-only {
+	background: linear-gradient(166deg, #48121d, #0d4058 100%) !important;
+}

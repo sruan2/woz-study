@@ -1,40 +1,25 @@
 <!DOCTYPE html>
 <html>
-<head>
-    <meta charset='utf-8'>
-    <meta name="mobile-web-app-capable" content="yes">
-    <title>WoZ ChatBot</title>
-    <style>
-        #user-input {
-            width: 50%;
-            height: 50px;
-        }
-        #bot-input {
-            width: 50%;
-            height: 50px;
-        }
-        #username {
-            width: 50%;
-            height: 50px;
-        }
-        input[type="text"]
-        {
-            font-size:24px;
-        }
-        input[type="submit"]
-        {
-            height: 30px;
-            width: 5%;
-            font-size: 18px;
-        }
-    </style>
-</head>
-<body>
-    <script type="text/javascript" src="http://code.jquery.com/jquery-1.4.2.min.js"></script>
-    <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/socket.io/1.3.6/socket.io.min.js"></script>
-    <script type="text/javascript" charset="utf-8">
-    $(document).ready(function() {
-        namespace = '';
+    <head>
+        <meta charset='utf-8'>
+        <meta name="mobile-web-app-capable" content="yes">
+        <title>WoZ ChatBot</title>
+        <link rel="stylesheet" media="all" href= "{{ url_for('static', filename='remove-this-test.css') }}">
+        <link rel="stylesheet" media="all" href= "{{ url_for('static', filename='home.css') }}">
+        <link rel="stylesheet" media="all" href= "{{ url_for('static', filename='input.css') }}">
+        <link rel="stylesheet" media="all" href= "{{ url_for('static', filename='normalize.css') }}">
+        <link rel="stylesheet" media="all" href= "{{ url_for('static', filename='reply.css') }}">
+        <link rel="stylesheet" media="all" href= "{{ url_for('static', filename='says.css') }}">
+        <link rel="stylesheet" media="all" href= "{{ url_for('static', filename='setup.css') }}">
+        <link rel="stylesheet" media="all" href= "{{ url_for('static', filename='skeleton.css') }}">
+        <link rel="stylesheet" media="all" href= "{{ url_for('static', filename='typing.css') }}">
+    </head>
+    <body>
+    	<script type="text/javascript" src="http://code.jquery.com/jquery-1.4.2.min.js"></script>
+    	<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/socket.io/1.3.6/socket.io.min.js"></script>
+		<script type="text/javascript" charset="utf-8">
+	        $(document).ready(function() {
+	            namespace = '';
 
                 // Connect to the Socket.IO server.
                 // The connection URL has the following format:
@@ -51,7 +36,7 @@
                 // The callback function is invoked when a connection with the
                 // server is established.
                 socket.on('connect', function() {
-                    socket.emit('est connection', {data: 'You\'re connected! Begin chatting...', initTime: Date.now()});
+                    // socket.emit('est connection', {data: 'You\'re connected! Begin chatting...', initTime: Date.now()});
                 });
 
                 // Event handler for server sent data.
@@ -59,7 +44,13 @@
                 // to the client. The data is then displayed in the "Received"
                 // section of the page.
                 socket.on('chat response', function(msg) {
-                    $('#log').append('<br>' + $('<div/>').text(msg.name + ': ' + msg.data).html());
+                    if (msg.name == 'Bot') {
+                        $('#user-chat').append('<div class=\"bubble say\">' + $('<div/>').text(msg.data).html());
+                        $('#bot-chat').append('<div class=\"bubble say reply reply-freeform bubble-button bubble-pick\">' + $('<div/>').text(msg.data).html());
+                    } else {
+                        $('#user-chat').append('<div class=\"bubble say reply reply-free-form bubble-button bubble-pick\">' + $('<div/>').text(msg.data).html());
+                        $('#bot-chat').append('<div class=\"bubble say\">' + $('<div/>').text(msg.data).html());
+                    }
                 });
 
                 // Handlers for the different forms
@@ -80,8 +71,46 @@
                     document.getElementById("bot-form").reset();
                     return false;
                 });
-            });
-    </script>
-    {% block body %}{% endblock %}
-</body>
+
+	            // Handlers for typing bubble animations
+				// var timer = null;
+				// $('#bot-input').keydown(function(){
+				//        clearTimeout(timer); 
+				//        timer = setTimeout(hide_bubbles_for_bot, 1000);
+				// });
+
+				// function hide_bubbles_for_bot() {
+				//     document.getElementById('typing-indicator-for-bot').style.visibility = 'hidden';
+				// };
+
+	   //          $('#bot-input').bind('input', function() {
+	   //          	document.getElementById('typing-indicator-for-bot').style.visibility = 'visible';
+	   //          });
+
+	   			var timer = null;
+				$('#text').keydown(function() {
+				    clearTimeout(timer);
+					timer = setTimeout(doStuff, 1000);
+				});
+
+				// function doStuff() {
+				// 	var thing = document.getElementById('thing');
+				// 	if (thing) {
+				// 		thing.style.visibility = 'hidden';
+				// 	}
+				// };
+
+				// $('#text').bind('input', function(){
+				// 	var thing = document.getElementById('thing');
+				// 	console.log(thing)
+				// 	if (thing) {
+				// 		thing.style.visibility = 'visible';
+				// 	}
+				  
+				// });
+
+	        });
+    	</script>
+    	{% block body %}{% endblock %}
+	</body>
 </html>

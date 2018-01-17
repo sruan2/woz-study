@@ -1,0 +1,73 @@
+html {
+  background-color: #0D0E16;
+  height: 100%;
+  position: relative;
+}
+
+body {
+  margin-bottom: 120px;
+}
+
+code {
+  font: 90% monospace;
+  background: #DDD;
+  border-radius: .3em;
+  -moz-border-radius: .3em;
+  -webkit-border-radius: .3em;
+  padding: 0 .3em;
+}
+code:hover {
+  color: #DDD;
+  background: #222;
+}
+a {
+  color: #7BFFA2;
+  text-decoration: none;
+}
+a:hover,
+a:active {
+  color: #F6FF61;
+}
+
+ul {
+  padding-left: 1em;
+}
+
+header {
+  background-color: #1D252D;
+  margin-bottom: 2rem;
+  padding: 1rem 0;
+}
+
+.clear { clear: both; }
+.spacer { height: 1px; }
+.relative { position: relative; }
+.full-height { height: 100%; }
+
+.v-align {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.columns.v-align { width: 90%; }
+
+@media (min-width: 550px) {
+  
+  .columns.v-align {
+    left: 8.66666666667%;
+  }
+}
+
+@media (min-width: 750px) {
+  
+  body {
+    margin-bottom: 90px
+  }
+  
+  footer {
+      
+      /* Set the fixed height of the footer here */
+      height: 90px;
+    }
+}
