@@ -2,6 +2,7 @@
   flex-grow: 8;
   display:inline-block;
   letter-spacing: .5px;
+  font-size: 1em;
   font-weight: 400;
 }
 
@@ -13,30 +14,35 @@
 }
 
 #user-form, #bot-form {
-  width: auto;
+  margin-left: 4.5%;
+  width: 90%;
+  position: fixed;
+  left:0px;
+  bottom: 20px;
+  background: rgba(255, 255, 255, 0.95);
+  display: flex;
   align-items: center;
-  margin-left: 3.5%;
-  margin-right: 3.5%;
-  position:fixed;
-  bottom:15px;
+  justify-content: space-between;
 }
 
+.space-filler {
+  flex-grow:0.2;
+}
+/*
 #space-filler {
   height: 100px;
   background: rgba(255, 255, 255, 0.95);
-/*  position: fixed;
-  bottom: 0px;*/
+  position: fixed;
+  bottom: 0px;
 }
-
+*/
 #user-chat, #bot-chat {
   height: auto;
-    overflow: auto;
-  overflow-y: scroll;
 }
 
 .chat-container {
   width: 100%;
-  height: 100%;
+  height: calc(100% - 80px);
 }
 
 #thing {
