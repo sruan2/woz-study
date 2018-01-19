@@ -1,9 +1,9 @@
 /* setup container styles */
 .bubble-container {
 	background: linear-gradient(145deg, #e5e9f1, #fff);
-	height: calc( 100% - 100px);
+	height: 100%
 	width: 100%;
-	overflow: hidden;
+	overflow: auto;
 	position: relative;
 }
 

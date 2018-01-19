@@ -1,3 +1,44 @@
+#user-input, #bot-input {
+  flex-grow: 8;
+  display:inline-block;
+  letter-spacing: .5px;
+  font-weight: 400;
+}
+
+#user-submit, #bot-submit{
+  flex-grow: 1;
+  display:inline-block;
+  font-size: 1em;
+  letter-spacing: .5px;
+}
+
+#user-form, #bot-form {
+  width: auto;
+  align-items: center;
+  margin-left: 3.5%;
+  margin-right: 3.5%;
+  position:fixed;
+  bottom:15px;
+}
+
+#space-filler {
+  height: 100px;
+  background: rgba(255, 255, 255, 0.95);
+/*  position: fixed;
+  bottom: 0px;*/
+}
+
+#user-chat, #bot-chat {
+  height: auto;
+    overflow: auto;
+  overflow-y: scroll;
+}
+
+.chat-container {
+  width: 100%;
+  height: 100%;
+}
+
 #thing {
   visibility:hidden
 }
