@@ -5,12 +5,12 @@
         <meta name="mobile-web-app-capable" content="yes">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>WoZ ChatBot</title>
-        <link rel="stylesheet" media="all" href= "{{ url_for('static', filename='interactive.css') }}">
-        <link rel="stylesheet" media="all" href= "{{ url_for('static', filename='reply.css') }}">
-        <link rel="stylesheet" media="all" href= "{{ url_for('static', filename='says.css') }}">
-        <link rel="stylesheet" media="all" href= "{{ url_for('static', filename='setup.css') }}">
-        <link rel="stylesheet" media="all" href= "{{ url_for('static', filename='skeleton.css') }}">
-        <link rel="stylesheet" media="all" href= "{{ url_for('static', filename='typing.css') }}">
+        <link rel="stylesheet" media="all" href= "{{ url_for('static', filename='styles/interactive.css') }}">
+        <link rel="stylesheet" media="all" href= "{{ url_for('static', filename='styles/reply.css') }}">
+        <link rel="stylesheet" media="all" href= "{{ url_for('static', filename='styles/says.css') }}">
+        <link rel="stylesheet" media="all" href= "{{ url_for('static', filename='styles/setup.css') }}">
+        <link rel="stylesheet" media="all" href= "{{ url_for('static', filename='styles/skeleton.css') }}">
+        <link rel="stylesheet" media="all" href= "{{ url_for('static', filename='styles/typing.css') }}">
     </head>
     <body>
     	<script type="text/javascript" src="http://code.jquery.com/jquery-1.4.2.min.js"></script>
@@ -42,12 +42,26 @@
                 // to the client. The data is then displayed in the "Received"
                 // section of the page.
                 socket.on('chat response', function(msg) {
-                    if (msg.name == 'Bot') {
-                        $('#user-chat').append('<div class=\"bubble say\">' + $('<div/>').text(msg.data).html());
-                        $('#bot-chat').append('<div class=\"bubble say reply reply-freeform bubble-button bubble-pick\">' + $('<div/>').text(msg.data).html());
+                    if (msg.name == 'Bot' && msg.data.includes("::avatar::")) {
+                        var avatar = new Image();
+                        avatar.src = '../static/images/ada_picture.png';
+                        photo_say = document.createElement('div');
+                        photo_say.setAttribute("class","bubble say");
+                        photo_say.appendChild(avatar)
+                        photo_reply = document.createElement('div');
+                        photo_reply.setAttribute("class","bubble say reply reply-freeform bubble-button bubble-pick");
+                        photo_reply.appendChild(avatar.cloneNode(true))
+                        $('#user-chat').append(photo_say);
+                        $('#bot-chat').append(photo_reply);
+
                     } else {
-                        $('#user-chat').append('<div class=\"bubble say reply reply-free-form bubble-button bubble-pick\">' + $('<div/>').text(msg.data).html());
-                        $('#bot-chat').append('<div class=\"bubble say\">' + $('<div/>').text(msg.data).html());
+                        if (msg.name == 'Bot') {
+                            $('#user-chat').append('<div class=\"bubble say\">' + $('<div/>').text(msg.data).html());
+                            $('#bot-chat').append('<div class=\"bubble say reply reply-freeform bubble-button bubble-pick\">' + $('<div/>').text(msg.data).html());
+                        } else {
+                            $('#user-chat').append('<div class=\"bubble say reply reply-free-form bubble-button bubble-pick\">' + $('<div/>').text(msg.data).html());
+                            $('#bot-chat').append('<div class=\"bubble say\">' + $('<div/>').text(msg.data).html());
+                        }
                     }
                     setTimeout(updateScroll,100);
                 });
