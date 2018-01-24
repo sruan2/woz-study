@@ -42,9 +42,17 @@
                 // to the client. The data is then displayed in the "Received"
                 // section of the page.
                 socket.on('chat response', function(msg) {
+                    var avatar_icon = new Image(30,30);
+                    avatar_icon.src = '../static/images/ada_icon.png';
+                    avatar_icon.setAttribute("class", "icon");
+                    var user_icon = new Image(30,30);
+                    user_icon.src = '../static/images/guest_icon.jpg';
+                    user_icon.setAttribute("class", "icon");
+
                     if (msg.name == 'Bot' && msg.data.includes("::avatar::")) {
                         var avatar = new Image();
                         avatar.src = '../static/images/ada_picture.png';
+                        avatar.setAttribute("class", "bubble-img")
                         photo_say = document.createElement('div');
                         photo_say.setAttribute("class","bubble say");
                         photo_say.appendChild(avatar)
@@ -56,15 +64,29 @@
 
                     } else {
                         if (msg.name == 'Bot') {
-                            $('#user-chat').append('<div class=\"bubble say\">' + $('<div/>').text(msg.data).html());
-                            $('#bot-chat').append('<div class=\"bubble say reply reply-freeform bubble-button bubble-pick\">' + $('<div/>').text(msg.data).html());
+                            // $('#user-chat').append(avatar_icon)
+                            $('#user-chat').append(createChatDivider('<div class=\"bubble say\">' + $('<div/>').text(msg.data).html()), avatar_icon);
+                            $('#bot-chat').append(createChatDivider('<div class=\"bubble say reply reply-freeform bubble-button bubble-pick\">' + $('<div/>').text(msg.data).html()));
                         } else {
-                            $('#user-chat').append('<div class=\"bubble say reply reply-free-form bubble-button bubble-pick\">' + $('<div/>').text(msg.data).html());
-                            $('#bot-chat').append('<div class=\"bubble say\">' + $('<div/>').text(msg.data).html());
+                            $('#user-chat').append(createChatDivider('<div class=\"bubble say reply reply-free-form bubble-button bubble-pick\">' + $('<div/>').text(msg.data).html()));
+                            // $('#bot-chat').append(user_icon)
+                            $('#bot-chat').append(createChatDivider('<div class=\"bubble say\">' + $('<div/>').text(msg.data).html()), user_icon);
                         }
                     }
                     setTimeout(updateScroll,100);
                 });
+
+                function createChatDivider(content, icon) {
+                    // var avatar_icon = new Image(30,30);
+                    // avatar_icon.src = '../static/images/ada_icon.png';
+                    // avatar_icon.setAttribute("class", "icon");
+                    div = document.createElement("div");
+                    div.setAttribute("display", "block");
+                    div.style.width = "100%";
+                    div.innerHTML = content;
+                    if (icon) div.prepend(icon);
+                    return div
+                }
 
                 // Handlers for the different forms
                 $('form#set-name').submit(function(event) {

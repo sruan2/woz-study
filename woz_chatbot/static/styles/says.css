@@ -17,6 +17,7 @@
 	word-break: break-word;
 	transform-origin: left top;
 	transition: all 200ms;
+	/*display: inline-block;*/
 }
 .bubble {
 	transition: opacity 150ms;
@@ -35,10 +36,18 @@
 	padding: 0;
 }
 
-img {
+img[class="bubble-img"] {
 	width: calc(100% + 32px);
 	margin: -8px -16px;
 	overflow: hidden;
 	display: block;
 	border-radius: 5px 15px 15px 15px;
+}
+
+img[class="icon"] {
+	max-width: 30px;
+	max-height: 30px;
+	border-radius: 50%;
+	margin: 0px;
+	display:inline-block;
 }
