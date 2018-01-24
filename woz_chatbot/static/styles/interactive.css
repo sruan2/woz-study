@@ -1,5 +1,5 @@
 #user-input, #bot-input {
-  flex-grow: 8;
+  flex-grow: 7;
   display:inline-block;
   letter-spacing: .5px;
   font-size: 1em;
@@ -63,7 +63,7 @@
   border-radius: 12px 30px 30px 30px;
   padding: 16px;
   display: table;
-  margin: 0 0 14px 0;
+  margin: 0 0 14px 0px;
   position: relative;
 
 }

@@ -70,7 +70,7 @@
                             // $('#user-chat').append(avatar_icon)
 
                             // $('#user-chat').append(bubble_shell);
-                            $('#user-chat').append(createTypingBubblesForBot);
+                            
 
                             $('#user-chat').append(createChatDivider('<div class=\"bubble say\">' + $('<div/>').text(msg.data).html()), avatar_icon);
                             $('#bot-chat').append(createChatDivider('<div class=\"bubble say reply reply-freeform bubble-button bubble-pick\">' + $('<div/>').text(msg.data).html()));
@@ -78,7 +78,7 @@
                             $('#user-chat').append(createChatDivider('<div class=\"bubble say reply reply-free-form bubble-button bubble-pick\">' + $('<div/>').text(msg.data).html()));
                             // $('#bot-chat').append(user_icon)
                             // $('#bot-chat').append(bubble_shell);
-                            $('#bot-chat').append(createTypingBubblesForUser);
+                            // $('#bot-chat').append(createTypingBubblesForUser);
 
                             $('#bot-chat').append(createChatDivider('<div class=\"bubble say\">' + $('<div/>').text(msg.data).html()), user_icon);
                         }
@@ -114,26 +114,32 @@
                     return false;
                 });
 
-	            // Handlers for typing bubble animations
-				// var timer = null;
-				// $('#bot-input').keydown(function(){
-				//        clearTimeout(timer); 
-				//        timer = setTimeout(hide_bubbles_for_bot, 1000);
-				// });
-
-				// function hide_bubbles_for_bot() {
-				//     document.getElementById('typing-indicator-for-bot').style.visibility = 'hidden';
-				// };
-
-	   //          $('#bot-input').bind('input', function() {
-	   //          	document.getElementById('typing-indicator-for-bot').style.visibility = 'visible';
-	   //          });
-
-	   			var timer = null;
-				$('#text').keydown(function() {
-				    clearTimeout(timer);
-					timer = setTimeout(doStuff, 1000);
+	            // Handlers for typing bot bubble animations
+				var timer = null;
+				$('#bot-input').keydown(function(){
+				       clearTimeout(timer); 
+				       timer = setTimeout(removeBotTypingBubbles, 1000);
 				});
+
+				function removeBotTypingBubbles() {
+				    indicator = document.getElementById('typing-indicator-for-bot');
+                    if (indicator) {
+                        indicator.remove();
+                    }
+				};
+
+	            // $('#bot-input').bind('input', function() {
+	            // 	indicator = document.getElementById('typing-indicator-for-bot');
+             //        if (!indicator) {
+             //            $('#bot-chat').append(createTypingBubblesForBot);
+             //        }
+	            // });
+
+	   // 			var timer = null;
+				// $('#text').keydown(function() {
+				//     clearTimeout(timer);
+				// 	timer = setTimeout(doStuff, 1000);
+				// });
 
 				// function doStuff() {
 				// 	var thing = document.getElementById('thing');
@@ -159,16 +165,6 @@
                     }
                 }
 
-                // function createTypingBubbles() {
-                //     var bubbleTyping = document.createElement("div");
-                //     bubbleTyping.className = "bubble-typing imagine";
-                //     for (dots = 0; dots < 3; dots++) {
-                //         var dot = document.createElement("div");
-                //         dot.className = "dot_" + dots + " dot";
-                //         bubbleTyping.appendChild(dot);
-                //     }
-                //     return bubbleTyping;
-                // }
                 function createTypingBubblesForUser() {
                     var bubbleTyping = document.createElement("div");
                     bubbleTyping.className = "typing-indicator";
