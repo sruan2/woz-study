@@ -30,6 +30,9 @@
                 if (name == "") {
                     name = "Guest";
                 }
+
+                var lastSpeaker = 'user'
+
                 // Event handler for new connections.
                 // The callback function is invoked when a connection with the
                 // server is established.
@@ -59,6 +62,10 @@
                         photo_reply = document.createElement('div');
                         photo_reply.setAttribute("class","bubble say reply reply-freeform bubble-button bubble-pick");
                         photo_reply.appendChild(avatar.cloneNode(true))
+                        if (lastSpeaker != 'bot') {
+                            $('#user-chat').append(avatar_icon);
+                            lastSpeaker = 'bot';
+                        }
                         $('#user-chat').append(photo_say);
                         $('#bot-chat').append(photo_reply);
 
@@ -67,20 +74,22 @@
                         // bubble_shell.className = "bubble say";
                         // bubble_shell.appendChild(createTypingBubbles());
                         if (msg.name == 'Bot') {
-                            // $('#user-chat').append(avatar_icon)
-
+                            if (lastSpeaker != 'bot') {
+                                $('#user-chat').append(avatar_icon);
+                                lastSpeaker = 'bot';
+                            }
                             // $('#user-chat').append(bubble_shell);
-                            
-
-                            $('#user-chat').append(createChatDivider('<div class=\"bubble say\">' + $('<div/>').text(msg.data).html()), avatar_icon);
-                            $('#bot-chat').append(createChatDivider('<div class=\"bubble say reply reply-freeform bubble-button bubble-pick\">' + $('<div/>').text(msg.data).html()));
+                            $('#user-chat').append('<div class=\"bubble say\">'+ $('<div/>').text(msg.data).html());
+                            $('#bot-chat').append('<div class=\"bubble say reply reply-freeform bubble-button bubble-pick\">' + $('<div/>').text(msg.data).html());
                         } else {
-                            $('#user-chat').append(createChatDivider('<div class=\"bubble say reply reply-free-form bubble-button bubble-pick\">' + $('<div/>').text(msg.data).html()));
-                            // $('#bot-chat').append(user_icon)
+                            $('#user-chat').append('<div class=\"bubble say reply reply-free-form bubble-button bubble-pick\">' + $('<div/>').text(msg.data).html());
+                            if (lastSpeaker != 'user') {
+                                $('#bot-chat').append(user_icon);
+                                lastSpeaker = 'user';
+                            }
                             // $('#bot-chat').append(bubble_shell);
                             // $('#bot-chat').append(createTypingBubblesForUser);
-
-                            $('#bot-chat').append(createChatDivider('<div class=\"bubble say\">' + $('<div/>').text(msg.data).html()), user_icon);
+                            $('#bot-chat').append('<div class=\"bubble say\">' + $('<div/>').text(msg.data).html());
                         }
                     }
                     setTimeout(updateScroll,100);
@@ -95,69 +104,11 @@
                     return div
                 }
 
-                // Handlers for the different forms
-                $('form#set-name').submit(function(event) {
-                    username = $('#username').val();
-                    window.location = 'user?uid=' + username;
-                    return false;
-                });
-
-                $('form#user-form').submit(function(event) {
-                    socket.emit('chat broadcast', {data: $('#user-input').val(), name:name});
-                    document.getElementById("user-form").reset();
-                    return false;
-                });
-
-                $('form#bot-form').submit(function(event) {
-                    socket.emit('chat broadcast', {data: $('#bot-input').val(), name:"Bot"});
-                    document.getElementById("bot-form").reset();
-                    return false;
-                });
-
-	            // Handlers for typing bot bubble animations
-				var timer = null;
-				$('#bot-input').keydown(function(){
-				       clearTimeout(timer); 
-				       timer = setTimeout(removeBotTypingBubbles, 1000);
-				});
-
-				function removeBotTypingBubbles() {
-				    indicator = document.getElementById('typing-indicator-for-bot');
-                    if (indicator) {
-                        indicator.remove();
-                    }
-				};
-
-	            // $('#bot-input').bind('input', function() {
-	            // 	indicator = document.getElementById('typing-indicator-for-bot');
-             //        if (!indicator) {
-             //            $('#bot-chat').append(createTypingBubblesForBot);
-             //        }
-	            // });
-
-	   // 			var timer = null;
-				// $('#text').keydown(function() {
-				//     clearTimeout(timer);
-				// 	timer = setTimeout(doStuff, 1000);
-				// });
-
-				// function doStuff() {
-				// 	var thing = document.getElementById('thing');
-				// 	if (thing) {
-				// 		thing.style.visibility = 'hidden';
-				// 	}
-				// };
-
-				// $('#text').bind('input', function(){
-				// 	var thing = document.getElementById('thing');
-				// 	console.log(thing)
-				// 	if (thing) {
-				// 		thing.style.visibility = 'visible';
-				// 	}
-				  
-				// });
-
-                // auto scroll chat container
+                /*
+                 * Functions to handle chat animations
+                 */
+                
+                // Function updateScroll: called to auto scroll chat container
                 function updateScroll(){
                     var elems = document.getElementsByClassName("chat-container");
                     for (i = 0; i < elems.length; i++){
@@ -165,7 +116,8 @@
                     }
                 }
 
-                function createTypingBubblesForUser() {
+                // Function createTypingBubbles: creates a typing indicator
+                function createTypingBubbles(recipient) {
                     var bubbleTyping = document.createElement("div");
                     bubbleTyping.className = "typing-indicator";
                     bubbleTyping.setAttribute("display", "block");
@@ -176,17 +128,46 @@
                     }
                     return bubbleTyping;
                 }
-                function createTypingBubblesForBot() {
-                    var bubbleTyping = document.createElement("div");
-                    bubbleTyping.className = "typing-indicator";
-                    bubbleTyping.setAttribute("display", "block");
-                    bubbleTyping.id = "typing-indicator-for-bot";
-                    for (dots = 0; dots < 3; dots++) {
-                        var dot = document.createElement("span");
-                        bubbleTyping.appendChild(dot);
+
+                //Function removeTypingBubbles: removes typing indicator from user chat log
+                function removeTypingBubbles() {
+                    indicator = document.getElementById('typing-indicator-for-user');
+                    if (indicator) {
+                        indicator.remove();
                     }
-                    return bubbleTyping;
-                }
+                };
+
+                // Handlers for typing bot bubble animations
+                var timer = null;
+                $('#bot-input').keydown(function(){
+                       clearTimeout(timer); 
+                       timer = setTimeout(removeTypingBubbles, 1000);
+                });
+
+                /*
+                 * Event Handlers
+                 */
+
+                // Handler for the sign in page
+                $('form#set-name').submit(function(event) {
+                    username = $('#username').val();
+                    window.location = 'user?uid=' + username;
+                    return false;
+                });
+
+                // Handler for user's chat input
+                $('form#user-form').submit(function(event) {
+                    socket.emit('chat broadcast', {data: $('#user-input').val(), name:name});
+                    document.getElementById("user-form").reset(); //input field cleared upon submit
+                    return false;
+                });
+
+                // Handler for bot's chat input
+                $('form#bot-form').submit(function(event) {
+                    socket.emit('chat broadcast', {data: $('#bot-input').val(), name:"Bot"});
+                    document.getElementById("bot-form").reset(); //input field cleared upon submit
+                    return false;
+                });
 	        });
     	</script>
     	{% block body %}{% endblock %}
