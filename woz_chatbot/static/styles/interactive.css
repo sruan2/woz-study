@@ -1,3 +1,7 @@
+#new-message-sound {
+  visibility: hidden;
+}
+
 #user-input, #bot-input {
   flex-grow: 7;
   display:inline-block;

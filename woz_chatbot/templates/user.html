@@ -1,6 +1,9 @@
 {% extends 'layout.html' %}
 
 {% block body %}
+<audio id="new-message-sound">
+	<source src="static/sounds/notification.mp3" autostart="0" width="0" height="0" type="audio/mp3">
+</audio>
 <div class="container bubble-container">
 	<div class="chat-container bubble-wrap">
 		<div id="user-chat"></div>

@@ -80,9 +80,11 @@
                             }
                             // $('#user-chat').append(bubble_shell);
                             $('#user-chat').append('<div class=\"bubble say\">'+ $('<div/>').text(msg.data).html());
+                            newMessageAlert()
                             $('#bot-chat').append('<div class=\"bubble say reply reply-freeform bubble-button bubble-pick\">' + $('<div/>').text(msg.data).html());
                         } else {
                             $('#user-chat').append('<div class=\"bubble say reply reply-free-form bubble-button bubble-pick\">' + $('<div/>').text(msg.data).html());
+                            newMessageAlert()
                             if (lastSpeaker != 'user') {
                                 $('#bot-chat').append(user_icon);
                                 lastSpeaker = 'user';
@@ -168,6 +170,12 @@
                     document.getElementById("bot-form").reset(); //input field cleared upon submit
                     return false;
                 });
+
+                // Function: newMessageAlert: plays a sound to alert the user of a new message
+                function newMessageAlert() {
+                    var sound = document.getElementById("new-message-sound");
+                    sound.play();
+                }
 	        });
     	</script>
     	{% block body %}{% endblock %}
