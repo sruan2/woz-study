@@ -15,6 +15,7 @@
     <body>
     	<script type="text/javascript" src="http://code.jquery.com/jquery-1.4.2.min.js"></script>
     	<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/socket.io/1.3.6/socket.io.min.js"></script>
+        <script type="text/javascript" src= "{{ url_for('static', filename='js/shortcuts.js') }}"></script>
 		<script type="text/javascript" charset="utf-8">
 	        $(document).ready(function() {
 	            namespace = '';
@@ -45,6 +46,8 @@
                 // to the client. The data is then displayed in the "Received"
                 // section of the page.
                 socket.on('chat response', function(msg) {
+
+                    //Variables for chat photo icons
                     var avatar_icon = new Image(30,30);
                     avatar_icon.src = '../static/images/ada_icon.png';
                     avatar_icon.setAttribute("class", "icon");
@@ -55,13 +58,14 @@
                     if (msg.name == 'Bot' && msg.data.includes("::avatar::")) {
                         var avatar = new Image();
                         avatar.src = '../static/images/ada_picture.png';
-                        avatar.setAttribute("class", "bubble-img")
+                        avatar.setAttribute("class", "bubble-img");
                         photo_say = document.createElement('div');
                         photo_say.setAttribute("class","bubble say");
-                        photo_say.appendChild(avatar)
+                        photo_say.appendChild(avatar);
                         photo_reply = document.createElement('div');
                         photo_reply.setAttribute("class","bubble say reply reply-freeform bubble-button bubble-pick");
-                        photo_reply.appendChild(avatar.cloneNode(true))
+                        photo_reply.appendChild(avatar.cloneNode(true));
+
                         if (lastSpeaker != 'bot') {
                             $('#user-chat').append(avatar_icon);
                             lastSpeaker = 'bot';
@@ -70,31 +74,39 @@
                         $('#bot-chat').append(photo_reply);
 
                     } else {
-                        // bubble_shell = document.createElement("div");
-                        // bubble_shell.className = "bubble say";
-                        // bubble_shell.appendChild(createTypingBubbles());
                         if (msg.name == 'Bot') {
-                            removeTypingBubbles()
+                            //remove bot's typing bubbles on user interface
+                            removeTypingBubbles();
+
+                            // update displayed icon
                             if (lastSpeaker != 'bot') {
                                 $('#user-chat').append(avatar_icon);
                                 lastSpeaker = 'bot';
                             }
-                            // $('#user-chat').append(bubble_shell);
+                            //expand out any shortcuts in bot's message
+                            // msg.data = expandShortcuts(msg.data);
+                            //append bot's response to user's chat
                             $('#user-chat').append('<div class=\"bubble say\">'+ $('<div/>').text(msg.data).html());
-                            audioAlert = document.getElementById("new-message-sound")
+                            //alert user of new bot message
+                            audioAlert = document.getElementById("new-message-sound");
                             if (audioAlert) {
                                 newMessageAlert();
                             }
+                            //append bot's response to bot's chat
                             $('#bot-chat').append('<div class=\"bubble say reply reply-freeform bubble-button bubble-pick\">' + $('<div/>').text(msg.data).html());
+
                         } else {
+                            //append user's question to user's chat
                             $('#user-chat').append('<div class=\"bubble say reply reply-free-form bubble-button bubble-pick\">' + $('<div/>').text(msg.data).html());
+                            // update displayed icon
                             if (lastSpeaker != 'user') {
                                 $('#bot-chat').append(user_icon);
                                 lastSpeaker = 'user';
                             }
-                            // $('#bot-chat').append(bubble_shell);
-                            // $('#bot-chat').append(createTypingBubblesForUser);
+                            //append user's question to bot's chat
                             $('#bot-chat').append('<div class=\"bubble say\">' + $('<div/>').text(msg.data).html());
+
+                            //add or refresh bot's typing bubbles on user interface
                             setTimeout(removeTypingBubbles, 300);
                             setTimeout(appendTypingBubbles, 1200);
                         }
