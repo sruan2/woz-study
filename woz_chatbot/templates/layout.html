@@ -74,6 +74,7 @@
                         // bubble_shell.className = "bubble say";
                         // bubble_shell.appendChild(createTypingBubbles());
                         if (msg.name == 'Bot') {
+                            removeTypingBubbles()
                             if (lastSpeaker != 'bot') {
                                 $('#user-chat').append(avatar_icon);
                                 lastSpeaker = 'bot';
@@ -94,9 +95,11 @@
                             // $('#bot-chat').append(bubble_shell);
                             // $('#bot-chat').append(createTypingBubblesForUser);
                             $('#bot-chat').append('<div class=\"bubble say\">' + $('<div/>').text(msg.data).html());
+                            setTimeout(removeTypingBubbles, 300);
+                            setTimeout(appendTypingBubbles, 1200);
                         }
                     }
-                    setTimeout(updateScroll,100);
+                    setTimeout(updateScroll, 100);
                 });
 
                 function createChatDivider(content, icon) {
