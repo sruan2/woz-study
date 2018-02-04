@@ -80,11 +80,13 @@
                             }
                             // $('#user-chat').append(bubble_shell);
                             $('#user-chat').append('<div class=\"bubble say\">'+ $('<div/>').text(msg.data).html());
-                            newMessageAlert()
+                            audioAlert = document.getElementById("new-message-sound")
+                            if (audioAlert) {
+                                newMessageAlert();
+                            }
                             $('#bot-chat').append('<div class=\"bubble say reply reply-freeform bubble-button bubble-pick\">' + $('<div/>').text(msg.data).html());
                         } else {
                             $('#user-chat').append('<div class=\"bubble say reply reply-free-form bubble-button bubble-pick\">' + $('<div/>').text(msg.data).html());
-                            newMessageAlert()
                             if (lastSpeaker != 'user') {
                                 $('#bot-chat').append(user_icon);
                                 lastSpeaker = 'user';
@@ -100,11 +102,12 @@
                 function createChatDivider(content, icon) {
                     div = document.createElement("div");
                     div.setAttribute("display", "block");
+                    div.setAttribute("clear", "both");
                     div.style.width = "100%";
                     div.innerHTML = content;
                     if (icon) div.prepend(icon);
                     return div
-                }
+                };
 
                 /*
                  * Functions to handle chat animations
@@ -116,10 +119,10 @@
                     for (i = 0; i < elems.length; i++){
                         elems[i].scrollTop = elems[i].scrollHeight;
                     }
-                }
+                };
 
                 // Function createTypingBubbles: creates a typing indicator
-                function createTypingBubbles(recipient) {
+                function createTypingBubbles() {
                     var bubbleTyping = document.createElement("div");
                     bubbleTyping.className = "typing-indicator";
                     bubbleTyping.setAttribute("display", "block");
@@ -129,9 +132,19 @@
                         bubbleTyping.appendChild(dot);
                     }
                     return bubbleTyping;
-                }
+                };
+
+                //Function appendTypingBubbles: appends typing indicator to user chat log
+                //                              if it does not already exist
+                function appendTypingBubbles() {
+                    indicator = document.getElementById('typing-indicator-for-user');
+                    if (!indicator) {
+                        $('#user-chat').append(createTypingBubbles());
+                    }
+                };
 
                 //Function removeTypingBubbles: removes typing indicator from user chat log
+                //                              if it exists
                 function removeTypingBubbles() {
                     indicator = document.getElementById('typing-indicator-for-user');
                     if (indicator) {
@@ -175,7 +188,7 @@
                 function newMessageAlert() {
                     var sound = document.getElementById("new-message-sound");
                     sound.play();
-                }
+                };
 	        });
     	</script>
     	{% block body %}{% endblock %}
