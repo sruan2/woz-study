@@ -32,14 +32,7 @@
 .space-filler {
   flex-grow:0.2;
 }
-/*
-#space-filler {
-  height: 100px;
-  background: rgba(255, 255, 255, 0.95);
-  position: fixed;
-  bottom: 0px;
-}
-*/
+
 #user-chat, #bot-chat {
   height: auto;
 }
@@ -51,14 +44,6 @@
 
 #thing {
   visibility:hidden
-}
-
-#typing-indicator-for-bot {
-  /*visibility:hidden*/
-}
-
-#typing-indicator-for-user {
-  /*visibility:hidden*/
 }
 
 .typing-indicator {

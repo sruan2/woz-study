@@ -84,27 +84,27 @@
                                 lastSpeaker = 'bot';
                             }
                             //expand out any shortcuts in bot's message
-                            // msg.data = expandShortcuts(msg.data);
+                            msg.data = expandShortcuts(msg.data);
                             //append bot's response to user's chat
-                            $('#user-chat').append('<div class=\"bubble say\">'+ $('<div/>').text(msg.data).html());
+                            $('#user-chat').append($('<div class=\"bubble say\"></div>').text(msg.data));
                             //alert user of new bot message
                             audioAlert = document.getElementById("new-message-sound");
                             if (audioAlert) {
                                 newMessageAlert();
                             }
                             //append bot's response to bot's chat
-                            $('#bot-chat').append('<div class=\"bubble say reply reply-freeform bubble-button bubble-pick\">' + $('<div/>').text(msg.data).html());
+                            $('#bot-chat').append($('<div class=\"bubble say reply reply-freeform bubble-button bubble-pick\"></div>').text(msg.data));
 
                         } else {
                             //append user's question to user's chat
-                            $('#user-chat').append('<div class=\"bubble say reply reply-free-form bubble-button bubble-pick\">' + $('<div/>').text(msg.data).html());
+                            $('#user-chat').append($('<div class=\"bubble say reply reply-free-form bubble-button bubble-pick\">').text(msg.data));
                             // update displayed icon
                             if (lastSpeaker != 'user') {
                                 $('#bot-chat').append(user_icon);
                                 lastSpeaker = 'user';
                             }
                             //append user's question to bot's chat
-                            $('#bot-chat').append('<div class=\"bubble say\">' + $('<div/>').text(msg.data).html());
+                            $('#bot-chat').append($('<div class=\"bubble say\">').text(msg.data));
 
                             //add or refresh bot's typing bubbles on user interface
                             setTimeout(removeTypingBubbles, 300);
@@ -204,6 +204,7 @@
                     var sound = document.getElementById("new-message-sound");
                     sound.play();
                 };
+
 	        });
     	</script>
     	{% block body %}{% endblock %}

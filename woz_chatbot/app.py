@@ -1,10 +1,13 @@
 from flask import Flask, render_template, url_for, redirect, request
 from flask_socketio import SocketIO, emit
 from datetime import datetime
+from flask_pymongo import PyMongo
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'secret!'
 socketio = SocketIO(app)
+mongo = PyMongo(app)
+app.config['MONGO_HOST'] = 'smartprimer.org'
 
 epoch = datetime.utcfromtimestamp(0)
 delay = 2000    # milliseconds
