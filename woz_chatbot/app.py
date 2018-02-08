@@ -8,7 +8,7 @@ app.config['SECRET_KEY'] = 'secret!'
 socketio = SocketIO(app)
 
 app.config['MONGO_DBNAME'] = 'woz_chatlog'
-app.config['MONGO_URI'] = 'mongodb://localhost:27017/woz_chatlog'
+app.config['MONGO_URI'] = 'mongodb://woz:Student2@localhost:27017/woz_chatlog'
 mongo = PyMongo(app)
 
 epoch = datetime.utcfromtimestamp(0)
