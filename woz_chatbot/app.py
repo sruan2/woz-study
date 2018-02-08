@@ -39,8 +39,8 @@ def test_message(message):
 
 @socketio.on('sign in', namespace='')
 def sign_in(name):
-	user = mongo.db.users
-	user.insert({name: []})
+	users = mongo.db.users
+	users.insert({'name': name})
 
 if __name__ == '__main__':
 	socketio.run(app, host='0.0.0.0', port=8000)
