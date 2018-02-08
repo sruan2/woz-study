@@ -181,7 +181,7 @@
                 // Handler for the sign in page
                 $('form#set-name').submit(function(event) {
                     username = $('#username').val();
-                    // socket.emit('sign in', {name:username});
+                    socket.emit('sign in', {name:username});
                     window.location = 'user?uid=' + username;
                     return false;
                 });

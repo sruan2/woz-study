@@ -37,10 +37,10 @@ def show_connection(message):
 def test_message(message):
     emit('chat response', {'data': message['data'],'name':message['name']}, broadcast=True)
 
-# @socketio.on('sign in', namespace='')
-# def sign_in(name):
-# 	user = mongo.db.users
-# 	user.insert({name: []})
+@socketio.on('sign in', namespace='')
+def sign_in(name):
+	user = mongo.db.users
+	user.insert({name: []})
 
 if __name__ == '__main__':
 	socketio.run(app, host='0.0.0.0', port=8000)
