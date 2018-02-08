@@ -6,8 +6,10 @@ from flask_pymongo import PyMongo
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'secret!'
 socketio = SocketIO(app)
+
+app.config['MONGO_DBNAME'] = 'woz_chatlog'
+app.config['MONGO_URI'] = 'mongodb://localhost:27017/woz_chatlog'
 mongo = PyMongo(app)
-app.config['MONGO_HOST'] = 'smartprimer.org'
 
 epoch = datetime.utcfromtimestamp(0)
 delay = 2000    # milliseconds
@@ -34,6 +36,11 @@ def show_connection(message):
 @socketio.on('chat broadcast', namespace='')
 def test_message(message):
     emit('chat response', {'data': message['data'],'name':message['name']}, broadcast=True)
+
+# @socketio.on('sign in', namespace='')
+# def sign_in(name):
+# 	user = mongo.db.users
+# 	user.insert({name: []})
 
 if __name__ == '__main__':
 	socketio.run(app, host='0.0.0.0', port=8000)

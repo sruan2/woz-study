@@ -21,4 +21,3 @@ function expandShortcuts(msg) {
 	});
 	return expanded;
 };
-
