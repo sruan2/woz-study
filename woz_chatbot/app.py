@@ -2,13 +2,14 @@ from flask import Flask, render_template, url_for, redirect, request
 from flask_socketio import SocketIO, emit
 from datetime import datetime
 from flask_pymongo import PyMongo
+import os
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'secret!'
 socketio = SocketIO(app)
 
 app.config['MONGO_DBNAME'] = 'woz_chatlog'
-app.config['MONGO_URI'] = os.environ("MONGO_URI")
+app.config['MONGO_URI'] = os.environ["MONGO_URI"]
 mongo = PyMongo(app)
 
 epoch = datetime.utcfromtimestamp(0)
