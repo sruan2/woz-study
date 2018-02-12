@@ -3,34 +3,57 @@
 }
 
 #user-input, #bot-input {
-  flex-grow: 7;
+/*  flex-grow: 7;*/
   display:inline-block;
   letter-spacing: .5px;
-  font-size: 1em;
+  font-size: 20pt;
   font-weight: 400;
+  border: none;
+  width: calc(100% - 40px);
 }
 
 #user-submit, #bot-submit{
-  flex-grow: 1;
+/*  flex-grow: 1;*/
   display:inline-block;
   font-size: 1em;
   letter-spacing: .5px;
+  border-radius: 25px;
+  width: 50px;
+  padding: 5px;
+  margin-right: 5px;
 }
 
 #user-form, #bot-form {
-  margin-left: 4.5%;
-  width: 90%;
+  margin-left: 0.1%;
+  margin-right: 0.1%;
+  width: calc(100vw - 40px);
   position: fixed;
-  left:0px;
   bottom: 20px;
-  background: rgba(255, 255, 255, 0.95);
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
+  padding: 5px;
+  /*background: rgba(255, 255, 255, 0.95);*/
+  /*display: flex;*/
+/*  align-items: center;
+  justify-content: space-between;*/
+  margin-top: 20px;
+}
+
+#input-wrap {
+  display: inline-block;
+  padding: 5px;
+  border: 2px solid darkgrey;
+  border-radius: 25px;
+  width: calc(100% - 100px);
+  background-color: white;
+}
+
+#voice-btn {
+  color: #47A1BF;
+  background: transparent;
+  border: none;
 }
 
 .space-filler {
-  flex-grow:0.2;
+  /*flex-grow:0.2;*/
 }
 
 #user-chat, #bot-chat {
@@ -39,7 +62,7 @@
 
 .chat-container {
   width: 100%;
-  height: calc(100% - 80px);
+  height: calc(100% - 120px);
 }
 
 #thing {

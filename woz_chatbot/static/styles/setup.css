@@ -2,15 +2,15 @@
 .container {
 	position: relative;
 	width: 100%;
-	max-width: 960px;
-	margin: 0 auto;
+	/*margin: 0 auto;*/
 	padding: 0 20px;
 	height: 100%;
 	box-sizing: border-box;
 }
 
 .bubble-container {
-	background: linear-gradient(145deg, #e5e9f1, #fff);
+	/*background: linear-gradient(145deg, #e5e9f1, #fff);*/
+	background: linear-gradient(to bottom right, #6BB3CB 0%, #47A1BF 30%, #7EBDD2 68%, #6BB3CB 100%);
 	height: 100%
 	width: 100%;
 	overflow: hidden;

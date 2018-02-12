@@ -1,9 +1,7 @@
 /* style "loading" or "typing" stae */
 
-.bubble-typing {
-	width: 38px;
-	padding: 12px 16px;
-	height: 8px;
+.typing-indicator {
+	background: rgba(255, 255, 255, 0.7);
 }
 .dot {
 	background-color: black;

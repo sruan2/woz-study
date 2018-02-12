@@ -11,6 +11,10 @@
         <link rel="stylesheet" media="all" href= "{{ url_for('static', filename='styles/setup.css') }}">
         <link rel="stylesheet" media="all" href= "{{ url_for('static', filename='styles/skeleton.css') }}">
         <link rel="stylesheet" media="all" href= "{{ url_for('static', filename='styles/typing.css') }}">
+        <!-- Google Fonts -->
+        <link href=“https://fonts.googleapis.com/css?family=Quicksand:400,700” rel=“stylesheet”>
+        <!-- For microphone button -->
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     </head>
     <body>
     	<script type="text/javascript" src="http://code.jquery.com/jquery-1.4.2.min.js"></script>
@@ -32,6 +36,13 @@
                     name = "Guest";
                 }
 
+                //Variables for chat photo icons
+                var avatar_icon = new Image(30,30);
+                avatar_icon.src = '../static/images/ada_icon.png';
+                avatar_icon.setAttribute("class", "icon");
+                var user_icon = new Image(30,30);
+                user_icon.src = '../static/images/guest_icon.jpg';
+                user_icon.setAttribute("class", "icon");
                 var lastSpeaker = 'user'
 
                 // Event handler for new connections.
@@ -46,14 +57,6 @@
                 // to the client. The data is then displayed in the "Received"
                 // section of the page.
                 socket.on('chat response', function(msg) {
-
-                    //Variables for chat photo icons
-                    var avatar_icon = new Image(30,30);
-                    avatar_icon.src = '../static/images/ada_icon.png';
-                    avatar_icon.setAttribute("class", "icon");
-                    var user_icon = new Image(30,30);
-                    user_icon.src = '../static/images/guest_icon.jpg';
-                    user_icon.setAttribute("class", "icon");
 
                     if (msg.name == 'Bot' && msg.data.includes("::avatar::")) {
                         var avatar = new Image();
@@ -109,6 +112,7 @@
                             //add or refresh bot's typing bubbles on user interface
                             setTimeout(removeTypingBubbles, 300);
                             setTimeout(appendTypingBubbles, 1200);
+                            setTimeout(updateScroll, 1201);
                         }
                     }
                     setTimeout(updateScroll, 100);
@@ -182,7 +186,7 @@
                 $('form#set-name').submit(function(event) {
                     username = $('#username').val();
                     socket.emit('sign in', username);
-                    window.location = 'user?uid=' + username;
+                    window.location = 'bot?uid=' + username;
                     return false;
                 });
 
