@@ -47,7 +47,7 @@ input[type="submit"]:hover, input[type="submit"]:focus {
 
 input[type="submit"]{
   color: #FFF;
-  background-color: #317085;
+  background-color: #418393;
   /*border-color: #33C3F0;*/
   border:none;
 }
@@ -58,7 +58,7 @@ input[type="text"] {
   padding: 6px 10px;
   background-color: #fff;
   border: 1px solid #D1D1D1;
-  border-radius: 4px;
+  border-radius: 25px;
   box-shadow: none;
   box-sizing: border-box; }
 

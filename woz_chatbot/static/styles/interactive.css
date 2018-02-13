@@ -10,6 +10,7 @@
   font-weight: 400;
   border: none;
   width: calc(100% - 40px);
+  border-radius: 25px 0px 0px 25px;
 }
 
 #user-submit, #bot-submit{
@@ -47,7 +48,7 @@
 }
 
 #voice-btn {
-  color: #47A1BF;
+  color: #418393;
   background: transparent;
   border: none;
 }
