@@ -13,6 +13,17 @@
   border-radius: 25px 0px 0px 25px;
 }
 
+#bot-input {
+  display: inline-block;
+  padding: 5px;
+  border: 2px solid darkgrey;
+  border-radius: 25px;
+  width: calc(100% - 100px);
+  background-color: white;
+  height: 64px;
+  padding: 16px;
+}
+
 #user-submit, #bot-submit{
 /*  flex-grow: 1;*/
   display:inline-block;
