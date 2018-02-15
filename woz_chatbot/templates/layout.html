@@ -213,52 +213,50 @@
             });
 
             /*
-             * The following code enables the bot to communicate with a parent 
-             * div. bindEvent and decodeMsg are duplicates of functions that 
+             * The following code enables the bot to communicate with a parent
+             * div. bindEvent and decodeMsg are duplicates of functions that
              * live in the primer directory.
              */
 
-             /* This is currently commented out because Kat can't test locally. */
-
             /**
-             * bindEvent listens to messages from child elements - 
+             * bindEvent listens to messages from child elements -
              * in particular from the story iFrame.
              */
-            // var bindEvent = function(element, eventName, eventHandler) {
-            //   if (element.addEventListener) {
-            //       element.addEventListener(eventName, eventHandler, false);
-            //   } else if (element.attachEvent) {
-            //       element.attachEvent('on' + eventName, eventHandler);
-            //   }
-            // };
+            var bindEvent = function(element, eventName, eventHandler) {
+              if (element.addEventListener) {
+                  element.addEventListener(eventName, eventHandler, false);
+              } else if (element.attachEvent) {
+                  element.attachEvent('on' + eventName, eventHandler);
+              }
+            };
 
-            // var decodeMsg = function(msg) {
-            //   return msg.split(':');
-            // };
+            var decodeMsg = function(msg) {
+              return msg.split(':');
+            };
 
-            /** 
+            /**
              * Receive and respond to messages from the parent.
              */
-            // bindEvent(window, 'message', function (e) {
-            //   let msg = decodeMsg(e.data);
-            //   let tag = msg[0];
-            //   if (tag === "setName") {
-            //     let name = msg[1];
-            //     // TODO: Do we want to record this?
-            //   } else if (tag === "mission1") {
-            //     let answer = msg[1];
-            //     if (answer === "correct") {
-            //         console.log("correct");
-            //         socket.emit('chat broadcast', {data: "That's correct! Way to go!", name:"Bot"});
-            //     } else if (answer === "double") {
-            //         console.log("double");
-            //         socket.emit('chat broadcast', {data: "That's not quite right, but you're really close! Remember that the box is only half full.", name:"Bot"});
-            //     } else if (answer === "incorrect") {
-            //         console.log("incorrect");
-            //         socket.emit('chat broadcast', {data: "Hmm. That's not what I get. Try double checking your calculations!", name:"Bot"});
-            //     }
-            //   }
-            // });
+            bindEvent(window, 'message', function (e) {
+              let msg = decodeMsg(e.data);
+              let tag = msg[0];
+              if (tag === "setName") {
+                let name = msg[1];
+                // TODO: Do we want to record this?
+              } else if (tag === "mission1") {
+                let answer = msg[1];
+                if (answer === "correct") {
+                    console.log("correct");
+                    // socket.emit('chat broadcast', {data: "That's correct! Way to go!", name:"Bot"});
+                } else if (answer === "double") {
+                    console.log("forgot to halve");
+                    // socket.emit('chat broadcast', {data: "That's not quite right, but you're really close! Remember that the box is only half full.", name:"Bot"});
+                } else if (answer === "incorrect") {
+                    console.log("incorrect");
+                    // socket.emit('chat broadcast', {data: "Hmm. That's not what I get. Try double checking your calculations!", name:"Bot"});
+                }
+              }
+            });
 
     	</script>
     	{% block body %}{% endblock %}
