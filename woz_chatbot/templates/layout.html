@@ -113,6 +113,13 @@
                             setTimeout(removeTypingBubbles, 300);
                             setTimeout(appendTypingBubbles, 1200);
                             setTimeout(updateScroll, 1201);
+
+                            // If the story is waiting for kid to interact with
+                            // bot, alert parent of interaction.
+                            if (waitingForHi) {
+                              sendToParent("saidHi");
+                              waitingForHi = false;
+                            }
                         }
                     }
                     setTimeout(updateScroll, 100);
@@ -215,6 +222,15 @@
                  * div. bindEvent and decodeMsg are duplicates of functions that
                  * live in the primer directory.
                  */
+                 var waitingForHi = false;
+
+                /**
+                 * Send a message to the parent
+                 */
+                var sendToParent = function(msg) {
+                   // Make sure you are sending a string, and to stringify JSON
+                   window.parent.postMessage(msg, '*');
+                };
 
                 /**
                  * bindEvent listens to messages from child elements -
@@ -238,18 +254,27 @@
                 bindEvent(window, 'message', function (e) {
                     let msg = decodeMsg(e.data);
                     let tag = msg[0];
-                    if (tag === "setName") {
-                        let name = msg[1];
-                        // TODO: Do we want to record this?
-                    } else if (tag === "mission1") {
-                        let answer = msg[1];
-                        if (answer === "correct") {
-                            socket.emit('chat broadcast', {data: "That's correct! Way to go!", name:"Bot"});
-                        } else if (answer === "double") {
-                            socket.emit('chat broadcast', {data: "That's not quite right, but you're really close! Remember that the box is only half full.", name:"Bot"});
-                        } else if (answer === "incorrect") {
-                            socket.emit('chat broadcast', {data: "Hmm. That's not what I get. Try double checking your calculations!", name:"Bot"});
-                        }
+
+                    switch(tag) {
+                        case "setName":
+                            let name = msg[1];
+                            // TODO: Do we want to record this?
+                            break;
+                        case "waitingForHi":
+                            waitingForHi = true;
+                            break;
+                        case "mission1":
+                            let answer = msg[1];
+                            if (answer === "correct") {
+                                socket.emit('chat broadcast', {data: "That's correct! Way to go!", name:"Bot"});
+                            } else if (answer === "double") {
+                                socket.emit('chat broadcast', {data: "That's not quite right, but you're really close! Remember that the box is only half full.", name:"Bot"});
+                            } else if (answer === "incorrect") {
+                                socket.emit('chat broadcast', {data: "Hmm. That's not what I get. Try double checking your calculations!", name:"Bot"});
+                            }
+                            break;
+                        default:
+                            break;
                     }
                 });
             });
