@@ -6,7 +6,7 @@ var shortcutTable = {
 	intro5: "Today, I'm really excited to be sharing some of what I learned with you! I can't wait to get started!",
 	intro6: "How about you? Tell me a little about yourself.",
 	bye1: "Thanks for going through the mission with me, NAME! I really enjoyed working through it with you.",
-	bye2: "Come back soon!"
+	bye2: "Come back soon!",
 	well: "Well done!",
 	g: "great job!",
 	half: "Don’t forget that the box is only half full!"
