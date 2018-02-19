@@ -109,6 +109,7 @@
                             }
                             //append user's question to bot's chat
                             $('#bot-chat').append($('<div class=\"bubble say\">').text(msg.data));
+                            socket.emit('log user message', {'data':msg.data, 'name':msg.name, 'uid':uid});
 
                             //add or refresh bot's typing bubbles on user interface
                             setTimeout(removeTypingBubbles, 300);
@@ -197,7 +198,7 @@
 
                 // Handler for user's chat input
                 $('form#user-form').submit(function(event) {
-                    socket.emit('chat broadcast', {data: $('#user-input').val(), name:name, uid:''});
+                    socket.emit('chat broadcast', {data: $('#user-input').val(), name:"User", uid:''});
                     document.getElementById("user-form").reset(); //input field cleared upon submit
                     return false;
                 });

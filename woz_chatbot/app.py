@@ -40,13 +40,24 @@ def show_connection(message):
 
 @socketio.on('chat broadcast', namespace='')
 def test_message(message):
-	logs = mongo.db.logs
-	time = datetime.utcnow()
-	userID = ObjectId(message['uid'])
-	logDoc = logs.find_one({'user_id': userID})
-	logDoc['history'].append({'sender':message['name'], 'contents':message['data'], 'time':time})
-	logs.save(logDoc)
+	if message['name'] == 'Bot' and message['uid'] != '':
+		logs = mongo.db.logs
+		time = datetime.utcnow()
+		userID = ObjectId(message['uid'])
+		logDoc = logs.find_one({'user_id': userID})
+		logDoc['history'].append({'sender':message['name'], 'contents':message['data'], 'time':time})
+		logs.save(logDoc)
 	emit('chat response', {'data': message['data'],'name':message['name']}, broadcast=True)
+
+@socketio.on('log user message', namespace='')
+def log_user_message(message):
+	if message['uid'] != '':
+		logs = mongo.db.logs
+		time = datetime.utcnow()
+		userID = ObjectId(message['uid'])
+		logDoc = logs.find_one({'user_id': userID})
+		logDoc['history'].append({'sender':message['name'], 'contents':message['data'], 'time':time})
+		logs.save(logDoc)
 
 @socketio.on('sign in', namespace='')
 def sign_in(name):
