@@ -31,10 +31,11 @@
 
                 // Retrieve name of user from URL param
                 var url = new URL(window.location.href);
-                var name = url.searchParams.get("uid");
+                var name = url.searchParams.get("name");
                 if (name == "") {
                     name = "Guest";
                 }
+                var uid = url.searchParams.get("uid");
 
                 //Variables for chat photo icons
                 var avatar_icon = new Image(30,30);
@@ -109,6 +110,7 @@
                             }
                             //append user's question to bot's chat
                             $('#bot-chat').append($('<div class=\"bubble say\">').text(msg.data));
+                            socket.emit('log user message', {'data':msg.data, 'name':msg.name, 'uid':uid});
 
                             //add or refresh bot's typing bubbles on user interface
                             setTimeout(removeTypingBubbles, 300);
@@ -194,20 +196,24 @@
                 $('form#set-name').submit(function(event) {
                     username = $('#username').val();
                     socket.emit('sign in', username);
-                    window.location = 'bot?uid=' + username;
+                    // window.location = 'bot?name=' + username;
                     return false;
+                });
+
+                socket.on('signed in', function(params) {
+                    window.location = 'bot?name=' + params['name'] + '&uid=' + params['uid'];
                 });
 
                 // Handler for user's chat input
                 $('form#user-form').submit(function(event) {
-                    socket.emit('chat broadcast', {data: $('#user-input').val(), name:name});
+                    socket.emit('chat broadcast', {data: $('#user-input').val(), name:"User", uid:''});
                     document.getElementById("user-form").reset(); //input field cleared upon submit
                     return false;
                 });
 
                 // Handler for bot's chat input
                 $('form#bot-form').submit(function(event) {
-                    socket.emit('chat broadcast', {data: $('#bot-input').val(), name:"Bot"});
+                    socket.emit('chat broadcast', {data: $('#bot-input').val(), name:"Bot", uid:uid});
                     document.getElementById("bot-form").reset(); //input field cleared upon submit
                     return false;
                 });
