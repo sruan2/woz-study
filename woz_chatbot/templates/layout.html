@@ -38,7 +38,7 @@
 
                 //Variables for chat photo icons
                 var avatar_icon = new Image(30,30);
-                avatar_icon.src = '../static/images/ada_icon.png';
+                avatar_icon.src = '../static/images/sally_icon.png';
                 avatar_icon.setAttribute("class", "icon");
                 var user_icon = new Image(30,30);
                 user_icon.src = '../static/images/guest_icon.jpg';
@@ -59,8 +59,9 @@
                 socket.on('chat response', function(msg) {
 
                     if (msg.name == 'Bot' && msg.data.includes("::avatar::")) {
+                        removeTypingBubbles();
                         var avatar = new Image();
-                        avatar.src = '../static/images/ada_picture.png';
+                        avatar.src = '../static/images/sally_picture.png';
                         avatar.setAttribute("class", "bubble-img");
                         photo_say = document.createElement('div');
                         photo_say.setAttribute("class","bubble say");
