@@ -11,7 +11,8 @@ var shortcutTable = {
 	bye1: "Thanks for going through the mission with me! I really enjoyed working through it with you.",
 	bye2: "Come back soon!",
 	well: "Well done!",
-	g: "great job!",
+	g: "Great job!",
+	e: "Exactly!",
 	half: "Don't forget that the box is only half full!"
 };
 
