@@ -24,9 +24,9 @@ On the Smart Primer server, export the logs collection to json format using:
 ```
 mongoexport -u username -p password -d woz_chatlog -c logs --jsonArray -o output.json
 ```
-Make sure to fill in the username and password fields and name the output file.
+Make sure to fill in the username and password fields and name the output file. This should be done every time to ensure a fresh copy of the data.
 
-Next, in the woz-study directoy, run the following script on the json file you just exported as the input:
+Next, in the woz-study directory, run the following script on the json file you just exported as the input:
 ```
 python convertHistory.py input.json userID output.txt
 ```
