@@ -195,8 +195,10 @@
                 // Handler for the sign in page
                 $('form#set-name').submit(function(event) {
                     username = $('#username').val();
+                    if (username == '' || username.toUpperCase() == 'TEST') {
+                        username = 'TEST'
+                    }
                     socket.emit('sign in', username);
-                    // window.location = 'bot?name=' + username;
                     return false;
                 });
 
@@ -209,6 +211,11 @@
                     socket.emit('chat broadcast', {data: $('#user-input').val(), name:"User", uid:''});
                     document.getElementById("user-form").reset(); //input field cleared upon submit
                     return false;
+                });
+
+                //Handler to stop typing bubble animation while user types
+                $('form#user-form').keydown(function(){
+                    removeTypingBubbles();
                 });
 
                 // Handler for bot's chat input

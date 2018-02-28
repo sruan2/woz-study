@@ -21,7 +21,7 @@ h2 {
   text-align: center;
 }
 
-button[type="submit"] {
+input[type="submit"], button[type="submit"] {
   display: inline-block;
   height: 50px;
   padding: 0 30px;
@@ -39,13 +39,14 @@ button[type="submit"] {
   cursor: pointer;
   box-sizing: border-box; }
 
+input[type="submit"]:hover, input[type="submit"]:focus,
 button[type="submit"]:hover, button[type="submit"]:focus {
   color: #333;
   border-color: #888;
   outline: 0;
 }
 
-button[type="submit"]{
+input[type="submit"], button[type="submit"]{
   color: #FFF;
   background-color: #418393;
   /*border-color: #33C3F0;*/

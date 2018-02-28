@@ -45,8 +45,9 @@ def test_message(message):
 		time = datetime.utcnow()
 		userID = ObjectId(message['uid'])
 		logDoc = logs.find_one({'user_id': userID})
-		logDoc['history'].append({'sender':message['name'], 'contents':message['data'], 'time':time})
-		logs.save(logDoc)
+		if logDoc:
+			logDoc['history'].append({'sender':message['name'], 'contents':message['data'], 'time':time})
+			logs.save(logDoc)
 	emit('chat response', {'data': message['data'],'name':message['name']}, broadcast=True)
 
 @socketio.on('log user message', namespace='')
@@ -56,8 +57,9 @@ def log_user_message(message):
 		time = datetime.utcnow()
 		userID = ObjectId(message['uid'])
 		logDoc = logs.find_one({'user_id': userID})
-		logDoc['history'].append({'sender':message['name'], 'contents':message['data'], 'time':time})
-		logs.save(logDoc)
+		if logDoc:
+			logDoc['history'].append({'sender':message['name'], 'contents':message['data'], 'time':time})
+			logs.save(logDoc)
 
 @socketio.on('sign in', namespace='')
 def sign_in(name):
@@ -67,8 +69,9 @@ def sign_in(name):
 
 	#find and/or add user
 	user = users.find_one({'name': name})
-	if user == None:
-		user = users.insert({'name': name})
+	if not user:
+		users.insert({'name': name})
+		user = users.find_one({'name': name})
 	userID = user['_id']
 
 	#find and/or create user's conversation log
