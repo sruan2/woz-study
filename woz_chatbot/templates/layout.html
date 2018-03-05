@@ -132,15 +132,81 @@
                     setTimeout(updateScroll, 100);
                 });
 
-                function createChatDivider(content, icon) {
-                    div = document.createElement("div");
-                    div.setAttribute("display", "block");
-                    div.setAttribute("clear", "both");
-                    div.style.width = "100%";
-                    div.innerHTML = content;
-                    if (icon) div.prepend(icon);
-                    return div
-                };
+                /**
+                 * Handlers for sign in page
+                 */
+
+                $('form#set-name').submit(function(event) {
+                    username = $('#username').val();
+                    if (username == '' || username.toUpperCase() == 'TEST') {
+                        username = 'TEST'
+                    }
+                    socket.emit('sign in', username);
+                    return false;
+                });
+
+                socket.on('signed in', function(params) {
+                    window.location = 'bot?name=' + params['name'] + '&uid=' + params['uid'];
+                });
+
+                /**
+                 * Handlers for user's chat input
+                 */
+
+                // Submit user form using button
+                $('form#user-form').submit(function(event) {
+                    socket.emit('chat broadcast', {data: $('#user-input').val(), name:"User", uid:''});
+                    document.getElementById("user-form").reset(); //input field cleared upon submit
+                    $("#user-input").css('height','50px');
+                    return false;
+                });
+
+                // Submit user form using enter key
+                $(function() {
+                    $("#user-input").keypress(function (event) {
+                        if(event.which == 13 && $.trim( $(this).val() ) != "") {    //prevent empty msgs
+                            socket.emit('chat broadcast', {data: $(this).val(), name:"User", uid:''});
+                            document.getElementById("user-form").reset();
+                            $("#user-input").css('height','50px');
+                            return false;
+                        }
+                    });
+                });
+
+                // Autogrow user input field
+                $("#user-input").autogrow();
+
+                // Stop typing bubble animation while user types
+                $('form#user-form').keydown(function(){
+                    removeTypingBubbles();
+                });
+
+                /**
+                 * Handlers for bot's chat
+                 */
+
+                // Submit bot form using button
+                $('form#bot-form').submit(function(event) {
+                    socket.emit('chat broadcast', {data: $('#bot-input').val(), name:"Bot", uid:uid});
+                    document.getElementById("bot-form").reset(); //input field cleared upon submit
+                    $("#bot-input").css('height','80px');
+                    return false;
+                });
+
+                // Autogrow bot input field
+                $("#bot-input").autogrow();
+
+                // Submit bot form using enter key
+                $(function() {
+                    $("#bot-input").keypress(function (event) {
+                        if(event.which == 13 && $.trim( $(this).val() ) != "") {    //prevent empty msgs
+                            socket.emit('chat broadcast', {data: $(this).val(), name:"Bot", uid:uid});
+                            document.getElementById("bot-form").reset();
+                            $("#bot-input").css('height','80px');
+                            return false;
+                        }
+                    });
+                });
 
                 /*
                  * Functions to handle chat animations
@@ -184,56 +250,6 @@
                         indicator.remove();
                     }
                 };
-
-                // Handlers for typing bot bubble animations
-                var timer = null;
-                $('#bot-input').keydown(function(){
-                       clearTimeout(timer); 
-                       timer = setTimeout(removeTypingBubbles, 1000);
-                });
-
-                // Autogrow input fields of both chats
-                $("#user-input").autogrow();
-                $("#bot-input").autogrow();
-
-                /*
-                 * Event Handlers
-                 */
-
-                // Handler for the sign in page
-                $('form#set-name').submit(function(event) {
-                    username = $('#username').val();
-                    if (username == '' || username.toUpperCase() == 'TEST') {
-                        username = 'TEST'
-                    }
-                    socket.emit('sign in', username);
-                    return false;
-                });
-
-                socket.on('signed in', function(params) {
-                    window.location = 'bot?name=' + params['name'] + '&uid=' + params['uid'];
-                });
-
-                // Handler for user's chat input
-                $('form#user-form').submit(function(event) {
-                    socket.emit('chat broadcast', {data: $('#user-input').val(), name:"User", uid:''});
-                    document.getElementById("user-form").reset(); //input field cleared upon submit
-                    $("#user-input").css('height','50px');
-                    return false;
-                });
-
-                //Handler to stop typing bubble animation while user types
-                $('form#user-form').keydown(function(){
-                    removeTypingBubbles();
-                });
-
-                // Handler for bot's chat input
-                $('form#bot-form').submit(function(event) {
-                    socket.emit('chat broadcast', {data: $('#bot-input').val(), name:"Bot", uid:uid});
-                    document.getElementById("bot-form").reset(); //input field cleared upon submit
-                    $("#bot-input").css('height','80px');
-                    return false;
-                });
 
                 // Function: newMessageAlert: plays a sound to alert the user of a new message
                 function newMessageAlert() {
