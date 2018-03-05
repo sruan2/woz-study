@@ -39,8 +39,8 @@ input[type="submit"], button[type="submit"] {
   cursor: pointer;
   box-sizing: border-box; }
 
-input[type="submit"]:hover, input[type="submit"]:focus,
-button[type="submit"]:hover, button[type="submit"]:focus {
+input[type="submit"]:hover,
+button[type="submit"]:hover {
   color: #333;
   border-color: #888;
   outline: 0;
@@ -53,8 +53,8 @@ input[type="submit"], button[type="submit"]{
   border:none;
 }
 
-input[type="text"] {
-  height: 50px;
+input[type="text"], textarea[type="text"] {
+  /*height: 50px;*/
   padding: 6px 10px;
   background-color: #fff;
   border: 1px solid #D1D1D1;
@@ -62,12 +62,12 @@ input[type="text"] {
   box-shadow: none;
   box-sizing: border-box; }
 
-input[type="text"]:focus {
+input[type="text"]:focus, textarea[type="text"]:focus {
   border: 1px solid #33C3F0;
   outline: 0;
 }
 
-#voice-btn:hover, button:focus {
+#voice-btn:hover, #voice-btn:focus {
   color: #333;
   border-color: #888;
   outline: 0;
