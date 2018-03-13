@@ -9,11 +9,6 @@
 // Establish variables
 ////////////////////////////////////////
 
-// TODO: Update UI with transcriptions
-// let final_span = {};
-// let inner_span = {};
-// let interim_span = {};
-
 // Initialize vars
 let final_transcript = ''; // Holds most updated version of transcription at any point
 let recognizing = false; // Whether or not we're transcribing
@@ -36,10 +31,11 @@ function onMicClick(event) {
   recognition.start();
   ignore_on_end = false;
   start_timestamp = event.timeStamp;
+  setMicGifTo('mic-slash');
 
+  // TODO
   // final_span.innerHTML = '';
   // interim_span.innerHTML = '';
-  // mic_img.attr('src', '../images/mic-slash.gif');
 }
 
 ////////////////////////////////////////
@@ -49,6 +45,10 @@ function onMicClick(event) {
 function setMicGifTo(image) {
   let path = './static/images/' + image + '.gif';
   $('#mic-img').attr('src', path);
+}
+
+function addToTextArea(text) {
+  document.getElementById("user-input").value += linebreak(text);
 }
 
 ////////////////////////////////////////
@@ -115,7 +115,7 @@ if (!('webkitSpeechRecognition' in window)) {
       return;
     }
 
-    // Dealing with span
+    // TODO
     // if (window.getSelection) {
     //   window.getSelection().removeAllRanges();
     //   var range = document.createRange();
@@ -125,6 +125,7 @@ if (!('webkitSpeechRecognition' in window)) {
 
     console.log("END");
     console.log("Final transcription: " + final_transcript);
+    addToTextArea(final_transcript);
   };
 
   ////////////////////////////////////////
@@ -141,11 +142,17 @@ if (!('webkitSpeechRecognition' in window)) {
     }
 
     final_transcript = capitalize(final_transcript);
+    // TODO
     // final_span.innerHTML = linebreak(final_transcript);
     // interim_span.innerHTML = linebreak(interim_transcript);
 
-    if (final_transcript || interim_transcript) {
-      console.log(interim_transcript);
+    // Temporary solution: only add when we're fairly confident. This is buggy
+    // because the first final result is repeated several times before the next one.
+    // addToTextArea(final_transcript);
+    if (final_transcript) {
+      console.log("FINAL: " + final_transcript);
+    } else {
+      console.log("Guess: " + interim_transcript);
     }
   };
 }
