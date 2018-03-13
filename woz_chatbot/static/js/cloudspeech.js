@@ -9,10 +9,6 @@
 // Establish variables
 ////////////////////////////////////////
 
-// Store reference to UI
-let mic_button = $('#mic-btn');
-let mic_img = $('#mic-img');
-
 // TODO: Update UI with transcriptions
 // let final_span = {};
 // let inner_span = {};
@@ -47,6 +43,15 @@ function onMicClick(event) {
 }
 
 ////////////////////////////////////////
+// Visual feedback
+////////////////////////////////////////
+
+function setMicGifTo(image) {
+  let path = './static/images/' + image + '.gif';
+  $('#mic-img').attr('src', path);
+}
+
+////////////////////////////////////////
 // Set up Recognition
 ////////////////////////////////////////
 
@@ -67,34 +72,35 @@ if (!('webkitSpeechRecognition' in window)) {
   recognition.onstart = function() {
     console.log("START");
     recognizing = true;
-    // TODO: Debug why mic image changes don't work
-    mic_img.src = '../images/mic-animate.gif';
+    setMicGifTo('mic-animate');
   };
 
   ////////////////////////////////////////
   // On error
   ////////////////////////////////////////
   recognition.onerror = function(event) {
+    setMicGifTo('mic');
+    ignore_on_end = true;
+
     // No speech
     if (event.error == 'no-speech') {
-      mic_img.src = '../images/mic.gif';
-      ignore_on_end = true;
       console.log("NO SPEECH");
     }
     // No microphone
-    if (event.error == 'audio-capture') {
-      mic_img.src = '../images/mic.gif';
-      ignore_on_end = true;
+    else if (event.error == 'audio-capture') {
       console.log("NO MICROPHONE");
     }
     // Not allowed
-    if (event.error == 'not-allowed') {
+    else if (event.error == 'not-allowed') {
       if (event.timeStamp - start_timestamp < 100) {
         console.log("ERROR BLOCKED");
       } else {
         console.log("ERROR DENIED");
       }
-      ignore_on_end = true;
+    }
+    // Other
+    else {
+      console.log("ERROR");
     }
   };
 
@@ -103,7 +109,7 @@ if (!('webkitSpeechRecognition' in window)) {
   ////////////////////////////////////////
   recognition.onend = function() {
     recognizing = false;
-    mic_img.src = '../images/mic.gif'; // Reset mic image
+    setMicGifTo("mic"); // Reset mic image
 
     if (ignore_on_end || !final_transcript) { // If there was some error
       return;
