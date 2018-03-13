@@ -24,7 +24,11 @@
         <script type="text/javascript" src="{{ url_for('static', filename='js/jquery.autogrow.js') }}"></script>
     	<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/socket.io/1.3.6/socket.io.min.js"></script>
         <script type="text/javascript" src= "{{ url_for('static', filename='js/shortcuts.js') }}"></script>
-		<script type="text/javascript" charset="utf-8">
+
+        <!-- Voice transcription -->
+        <script type="text/javascript" src="../static/js/cloudspeech.js"></script>
+
+        <script type="text/javascript" charset="utf-8">
 	        $(document).ready(function() {
 	            namespace = '';
 
@@ -319,7 +323,7 @@
                 });
             });
 
-    	</script>
-    	{% block body %}{% endblock %}
+    	  </script>
+    	  {% block body %}{% endblock %}
 	</body>
 </html>

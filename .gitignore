@@ -102,3 +102,7 @@ ENV/
 
 # script
 *.sh
+
+# Google cloud SDK
+google-cloud-sdk/*
+gcloud_key.json
