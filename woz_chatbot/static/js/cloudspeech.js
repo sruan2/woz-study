@@ -11,6 +11,7 @@
 
 // Initialize vars
 let final_transcript = ''; // Holds most updated version of transcription at any point
+let published_transcript = '';
 let recognizing = false; // Whether or not we're transcribing
 let ignore_on_end; // If false, ignore results when done transcribing
 let start_timestamp;
@@ -28,14 +29,11 @@ function onMicClick(event) {
 
   // Otherwise, prepare to start transcribing...
   final_transcript = '';
+  published_transcript = '';
   recognition.start();
   ignore_on_end = false;
   start_timestamp = event.timeStamp;
   setMicGifTo('mic-slash');
-
-  // TODO
-  // final_span.innerHTML = '';
-  // interim_span.innerHTML = '';
 }
 
 ////////////////////////////////////////
@@ -47,8 +45,35 @@ function setMicGifTo(image) {
   $('#mic-img').attr('src', path);
 }
 
+// Publishes what was not yet been published
 function addToTextArea(text) {
-  document.getElementById("user-input").value += linebreak(text);
+  if (!text.indexOf(published_transcript) == 0) {
+    console.log("ERROR FINAL DOESN'T MATCH PUBLISHED!");
+  }
+  let newText = text.slice(published_transcript.length);
+  insertAtCursor(linebreak(newText));
+  published_transcript += newText;
+}
+
+// Inserts text at cursor
+function insertAtCursor(text) {
+  let field = document.getElementById("user-input");
+  // IE support
+  if (document.selection) {
+      field.focus();
+      let sel = document.selection.createRange();
+      sel.text = text;
+  }
+  // MOZILLA and others
+  else if (field.selectionStart || field.selectionStart == '0') {
+      let startPos = field.selectionStart;
+      let endPos = field.selectionEnd;
+      field.value = field.value.substring(0, startPos)
+          + text
+          + field.value.substring(endPos, field.value.length);
+  } else {
+      field.value += text;
+  }
 }
 
 ////////////////////////////////////////
@@ -115,17 +140,8 @@ if (!('webkitSpeechRecognition' in window)) {
       return;
     }
 
-    // TODO
-    // if (window.getSelection) {
-    //   window.getSelection().removeAllRanges();
-    //   var range = document.createRange();
-    //   range.selectNode(document.getElementById('final_span'));
-    //   window.getSelection().addRange(range);
-    // }
-
     console.log("END");
     console.log("Final transcription: " + final_transcript);
-    addToTextArea(final_transcript);
   };
 
   ////////////////////////////////////////
@@ -142,13 +158,9 @@ if (!('webkitSpeechRecognition' in window)) {
     }
 
     final_transcript = capitalize(final_transcript);
-    // TODO
-    // final_span.innerHTML = linebreak(final_transcript);
-    // interim_span.innerHTML = linebreak(interim_transcript);
 
-    // Temporary solution: only add when we're fairly confident. This is buggy
-    // because the first final result is repeated several times before the next one.
-    // addToTextArea(final_transcript);
+    // Temporary solution: only add when we're fairly confident.
+    addToTextArea(final_transcript);
     if (final_transcript) {
       console.log("FINAL: " + final_transcript);
     } else {
