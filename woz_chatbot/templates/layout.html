@@ -27,6 +27,8 @@
 
         <!-- Voice transcription -->
         <script type="text/javascript" src="{{ url_for('static', filename='js/speechToText.js') }}"></script>
+        <!-- Voice generation -->
+        <script type="text/javascript" src="{{ url_for('static', filename='js/textToSpeech.js') }}"></script>
 
         <script type="text/javascript" charset="utf-8">
 	        $(document).ready(function() {
@@ -100,11 +102,17 @@
                             msg.data = expandShortcuts(msg.data);
                             //append bot's response to user's chat
                             $('#user-chat').append($('<div class=\"bubble say\"></div>').text(msg.data));
-                            //alert user of new bot message
+
+                            // Alert user of new message.
+                            // If speech is enabled, speak message.
+                            // Otherwise, play sound
                             audioAlert = document.getElementById("new-message-sound");
-                            if (audioAlert) {
+                            if (shouldSpeakMessage()) {
+                              speak(msg.data);
+                            } else if (audioAlert) {
                                 newMessageAlert();
                             }
+
                             //append bot's response to bot's chat
                             $('#bot-chat').append($('<div class=\"bubble say reply reply-freeform bubble-button bubble-pick\"></div>').text(msg.data));
 
@@ -321,6 +329,11 @@
                             break;
                     }
                 });
+
+                /**
+                 * Check for voice generation.
+                 */
+                checkIfSpeechSynthesisEnabled();
             });
 
     	  </script>

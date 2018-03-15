@@ -23,9 +23,14 @@ Open two web browser windows side by side. In window 1, navigate to http://local
 1) Follow the quickstart instructions here (https://cloud.google.com/speech/docs/quickstart).
 First, download (or ask Kat for) a JSON file containing the private key to our GCP Console project (Chatbot Voice Transcription).
 Second, install and initialize the Cloud SDK.
-Third, authenticate by running "gcloud auth activate-service-account --key-file=[PATH]" where PATH leads to the JSON private key.
+Third, authenticate by running
+```
+gcloud auth activate-service-account --key-file=[PATH]
+```
+where PATH leads to the JSON private key.
 
-2) Install SoX and make it available in your $PATH. For Mac OS, this looks like "brew install sox"; for Linux, "sudo apt-get install sox libsox-fmt-all".
+2) Install SoX and make it available in your $PATH. For Mac OS, this looks like ```brew install sox;``` for Linux, ```sudo apt-get install sox libsox-fmt-all```.
+
 
 # Get the conversation history in readable form for a particular user:
 
