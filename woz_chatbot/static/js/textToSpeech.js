@@ -46,6 +46,5 @@ function shouldSpeakMessage() {
   // If not on user page, never speak
   if (!speakToggle) return false;
   // Otherwise, return value of toggle
-  console.log(speakToggle)
   return speakToggle.checked;
 }
