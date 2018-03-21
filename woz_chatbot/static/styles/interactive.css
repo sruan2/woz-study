@@ -54,6 +54,10 @@
   align-items: center;
 }
 
+#user-form {
+  bottom: 30px;
+}
+
 #input-wrap {
   display: flex;
   padding: 5px;
@@ -151,4 +155,12 @@
   50% {
     opacity: 1;
   }
+}
+
+#speak-msg-div {
+  position:fixed;
+  right:35px;
+  bottom:5px;
+  font-size:12pt
+  color:'#222'"
 }
