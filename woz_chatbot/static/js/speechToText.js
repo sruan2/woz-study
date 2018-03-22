@@ -33,7 +33,6 @@ function onMicClick(event) {
   recognition.start();
   ignore_on_end = false;
   start_timestamp = event.timeStamp;
-  setMicGifTo('mic-slash');
 }
 
 ////////////////////////////////////////
@@ -113,10 +112,12 @@ if (!('webkitSpeechRecognition' in window)) {
     }
     // No microphone
     else if (event.error == 'audio-capture') {
+      setMicGifTo('mic-slash');
       console.log("NO MICROPHONE");
     }
     // Not allowed
     else if (event.error == 'not-allowed') {
+      setMicGifTo('mic-slash');
       if (event.timeStamp - start_timestamp < 100) {
         console.log("ERROR BLOCKED");
       } else {
@@ -134,7 +135,9 @@ if (!('webkitSpeechRecognition' in window)) {
   ////////////////////////////////////////
   recognition.onend = function() {
     recognizing = false;
-    setMicGifTo("mic"); // Reset mic image
+    if (!ignore_on_end) {
+      setMicGifTo("mic"); // Reset mic image
+    }
 
     if (ignore_on_end || !final_transcript) { // If there was some error
       return;
