@@ -102,6 +102,7 @@
                             msg.data = expandShortcuts(msg.data);
                             //append bot's response to user's chat
                             $('#user-chat').append($('<div class=\"bubble say\"></div>').text(msg.data));
+                            socket.emit('log bot message', {'data':msg.data, 'name':msg.name, 'uid':uid});
 
                             // Alert user of new message.
                             // If speech is enabled, speak message.
@@ -126,7 +127,6 @@
                             }
                             //append user's question to bot's chat
                             $('#bot-chat').append($('<div class=\"bubble say\">').text(msg.data));
-                            socket.emit('log user message', {'data':msg.data, 'name':msg.name, 'uid':uid});
 
                             //add or refresh bot's typing bubbles on user interface
                             setTimeout(removeTypingBubbles, 300);
@@ -145,20 +145,13 @@
                 });
 
                 /**
-                 * Handlers for sign in page
+                 * Handlers for sign in using name received from story iframe
                  */
 
-                $('form#set-name').submit(function(event) {
-                    username = $('#username').val();
-                    if (username == '' || username.toUpperCase() == 'TEST') {
-                        username = 'TEST'
-                    }
-                    socket.emit('sign in', username);
-                    return false;
-                });
-
                 socket.on('signed in', function(params) {
-                    window.location = 'bot?name=' + params['name'] + '&uid=' + params['uid'];
+                    // window.location = 'bot?name=' + params['name'] + '&uid=' + params['uid'];
+                    sendToParent(encodeMsg("setUserURL", params['name'], params['uid']))
+
                 });
 
                 /**
@@ -167,7 +160,7 @@
 
                 // Submit user form using button
                 $('form#user-form').submit(function(event) {
-                    socket.emit('chat broadcast', {data: $('#user-input').val(), name:"User", uid:''});
+                    socket.emit('chat broadcast', {data: $('#user-input').val(), name:"User", uid:uid});
                     document.getElementById("user-form").reset(); //input field cleared upon submit
                     $("#user-input").css('height','50px');
                     return false;
@@ -177,7 +170,7 @@
                 $(function() {
                     $("#user-input").keypress(function (event) {
                         if(event.which == 13 && $.trim( $(this).val() ) != "") {    //prevent empty msgs
-                            socket.emit('chat broadcast', {data: $(this).val(), name:"User", uid:''});
+                            socket.emit('chat broadcast', {data: $(this).val(), name:"User", uid:uid});
                             document.getElementById("user-form").reset();
                             $("#user-input").css('height','50px');
                             return false;
@@ -199,7 +192,7 @@
 
                 // Submit bot form using button
                 $('form#bot-form').submit(function(event) {
-                    socket.emit('chat broadcast', {data: $('#bot-input').val(), name:"Bot", uid:uid});
+                    socket.emit('chat broadcast', {data: $('#bot-input').val(), name:"Bot", uid:''});
                     document.getElementById("bot-form").reset(); //input field cleared upon submit
                     $("#bot-input").css('height','80px');
                     return false;
@@ -212,7 +205,7 @@
                 $(function() {
                     $("#bot-input").keypress(function (event) {
                         if(event.which == 13 && $.trim( $(this).val() ) != "") {    //prevent empty msgs
-                            socket.emit('chat broadcast', {data: $(this).val(), name:"Bot", uid:uid});
+                            socket.emit('chat broadcast', {data: $(this).val(), name:"Bot", uid:''});
                             document.getElementById("bot-form").reset();
                             $("#bot-input").css('height','80px');
                             return false;
@@ -274,7 +267,11 @@
                  * div. bindEvent and decodeMsg are duplicates of functions that
                  * live in the primer directory.
                  */
-                 var waitingForHi = false;
+                var waitingForHi = false;
+
+                var encodeMsg = function(tag, value1, value2) {
+                    return tag + ":" + value1 + ":" + value2;
+                };
 
                 /**
                  * Send a message to the parent
@@ -310,7 +307,10 @@
                     switch(tag) {
                         case "setName":
                             let name = msg[1];
-                            // TODO: Do we want to record this?
+                            if (name == '' || name.toUpperCase() == 'TEST') {
+                                name = 'TEST'
+                            }
+                            socket.emit('sign in', name);
                             break;
                         case "waitingForHi":
                             waitingForHi = true;

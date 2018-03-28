@@ -16,9 +16,6 @@ mongo = PyMongo(app)
 epoch = datetime.utcfromtimestamp(0)
 delay = 2000    # milliseconds
 
-# userID = ''
-# logDoc = {}
-
 @app.route('/')
 def home():
 	return render_template('home.html')
@@ -40,7 +37,7 @@ def show_connection(message):
 
 @socketio.on('chat broadcast', namespace='')
 def test_message(message):
-	if message['name'] == 'Bot' and message['uid'] != '':
+	if message['name'] == 'User' and message['uid'] != '':
 		logs = mongo.db.logs
 		time = datetime.utcnow()
 		userID = ObjectId(message['uid'])
@@ -50,8 +47,8 @@ def test_message(message):
 			logs.save(logDoc)
 	emit('chat response', {'data': message['data'],'name':message['name']}, broadcast=True)
 
-@socketio.on('log user message', namespace='')
-def log_user_message(message):
+@socketio.on('log bot message', namespace='')
+def log_bot_message(message):
 	if message['uid'] != '':
 		logs = mongo.db.logs
 		time = datetime.utcnow()
@@ -66,17 +63,17 @@ def sign_in(name):
 	#get db collections
 	users = mongo.db.users
 	logs = mongo.db.logs
+	userID = ''
 
 	#find and/or add user
 	user = users.find_one({'name': name})
-	if not user:
+	if user:
+		userID = user['_id']
+	else:
 		users.insert({'name': name})
 		user = users.find_one({'name': name})
-	userID = user['_id']
-
-	#find and/or create user's conversation log
-	logDoc = logs.find_one({'user_id': userID})
-	if logDoc == None:
+		userID = user['_id']
+		#create user's conversation log
 		logDoc = logs.insert({'user_id':userID, 'history':[]})
 
 	emit('signed in', {'name':name, 'uid': str(ObjectId(userID))})
