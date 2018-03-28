@@ -16,7 +16,7 @@ git clone https://github.com/smartprimer/woz-study
 
 Open a terminal in the woz-study directory on the Smart Primer server. Switch to the 'woz' screen. Restart the application server using the start server script.
 
-Open two web browser windows side by side. In window 1, navigate to http://localhost:8000/user. In window 2, navigate to http://localhost:8000/. Window 1 will act as the user's chat perspective. Window 2 will act as the bot's chat perspective. As the Wizard, you will be prompted to set a full name for the user which will be used to record the conversation in the database. The page will then redirect to the chat interface at http://localhost:8000/bot. With the current design, it is assumed that the "wizard" will connect to the chat before the user begins the conversation.
+Open two web browser windows side by side. In window 1, navigate to http://smartprimer.org/cordova/www/CandyMan_Start.html. In window 2, navigate to http://smartprimer.org/bot. Window 1 has the story and chat panel and is the user's chat perspective. Window 2 is the bot's chat perspective. The user will set his or her name from the story window and then the chat iframe will appear. The iframe's URL contains the user's name and userID which will be used to record the conversation in the database. With the current design, it is assumed that the user will sign in with their name and connect to the chat before the bot says anything (If the bot speaks before the user has set his or her name, the conversation is not recorded).
 
 # Set up Google Cloud Speech API for voice transcription:
 
