@@ -10,7 +10,8 @@
 
 .bubble-container {
 	/*background: linear-gradient(145deg, #e5e9f1, #fff);*/
-	background: linear-gradient(to bottom right, #4a96a8 0%, #5dbcd2 30%, #8dd0df 50%, #4a96a8 100%);
+	/* background: linear-gradient(to bottom right, #4a96a8 0%, #5dbcd2 30%, #8dd0df 50%, #4a96a8 100%); */
+	background-color: #A1D2D6;
 	height: 100%
 	width: 100%;
 	overflow: hidden;
