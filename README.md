@@ -1,11 +1,15 @@
+# Notes
+
+- http://0.0.0.0:8000 cannot go to the correct signed in page. We have to go to http://0.0.0.0:8000/user manually.
+
+- The speech recognition only works if accessed from http://localhost:8000/user. It does not work for http://0.0.0.0:8000/user.
+
+
 # Wiki
 https://github.com/smartprimer/woz-study/wiki
 
 # About
 This is a chat room webpage which can send and receive messages using Python Flask as the backend server.
-
-# Team
-Ellen, Sherry, Liz, and Yeshuang
 
 # Setup
 Download the repo:
