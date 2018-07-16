@@ -80,4 +80,7 @@ def sign_in(name):
     emit('signed in', {'name':name, 'uid': str(ObjectId(userID))})
 
 if __name__ == '__main__':
-    socketio.run(app, host='0.0.0.0', port=8000)
+    context = ('/etc/letsencrypt/live/smartprimer.org/fullchain.pem',
+               '/etc/letsencrypt/live/smartprimer.org/privkey.pem')
+    socketio.run(app, host='0.0.0.0', port=8000, certfile=context[0], keyfile=context[1])
+
